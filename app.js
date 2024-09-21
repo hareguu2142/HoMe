@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const favicon = require('serve-favicon');
 const app = express();
 const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
@@ -9,6 +10,9 @@ const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
 app.use(express.json());
+
+// 파비콘 설정
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // MongoDB 연결 함수
 async function connectDB() {
