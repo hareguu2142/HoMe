@@ -2,17 +2,25 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.js",			
+      "src": "app.js",
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/(.*)",
-      "dest": "/app.js",
-      "headers": {
-        "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate"
-      }
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/app.js"
     }
   ]
 }
