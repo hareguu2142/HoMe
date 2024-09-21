@@ -12,7 +12,7 @@ const client = new MongoClient(uri);
 app.use(express.json());
 
 // 파비콘 설정
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'icon.ico')));
 
 // MongoDB 연결 함수
 async function connectDB() {
