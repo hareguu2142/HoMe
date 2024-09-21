@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>수학 공식 및 코드 스니펫 빈 페이지</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1, h2, h3, h4 {
+            color: #4a4a4a;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 25px;
+        }
+        h4 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        .math-container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #6e8efb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #a777e3;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .home-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #6e8efb;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+        thead {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+        th {
+            font-weight: 600;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tbody tr:hover {
+            background-color: #e9ecef;
+            transition: background-color 0.3s ease;
+        }
+        .code-container {
+            position: relative;
+            margin-top: 30px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #6e8efb;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .code-container:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn:hover {
+            background-color: #a777e3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<header>
+<a class="home-button" href="/" title="메인 페이지로 돌아가기">🏠</a>
+<h1>수학 공식 및 코드 스니펫 빈페이지</h1>
+</header>
+<div class="math-container">
+<h2>페이지 소개</h2>
+<p>이 페이지는 수학 공식과 코드 스니펫을 표시하고 복사할 수 있는 기능을 제공합니다:</p>
+<ul>
+<li>KaTeX 라이브러리를 사용하여 수학 공식을 렌더링합니다.</li>
+<li>ClipboardJS를 사용하여 코드 스니펫 복사 기능을 구현했습니다.</li>
+<li>수학 공식은 LaTeX 문법으로 작성할 수 있습니다.</li>
+<li>코드 스니펫은 복사 버튼을 통해 쉽게 복사할 수 있습니다.</li>
+</ul>
+<p>아래에 수학 공식과 코드 스니펫 예시를 추가하여 사용할 수 있습니다.</p>
+</div>
+<div class="footer">
+<p>© 2023 수학 공식 및 코드 스니펫 페이지. 모든 권리 보유.</p>
+</div>
+</div>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+
+        const clipboard = new ClipboardJS('.copy-btn');
+        clipboard.on('success', function(e) {
+            alert('코드가 클립보드에 복사되었습니다!');
+            e.clearSelection();
+        });
+        clipboard.on('error', function(e) {
+            alert('코드 복사에 실패했습니다.');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>10인 1:1 게임의 수학적 분석</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1, h2 {
+            color: #4a4a4a;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        .math-container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #6e8efb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #a777e3;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .home-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #6e8efb;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<header>
+<a class="home-button" href="/" title="메인 페이지로 돌아가기">🏠</a>
+<h1>10인 1:1 게임의 수학적 분석</h1>
+</header>
+<div class="math-container">
+<h2>게임 규칙</h2>
+<ul>
+<li>참가자: 10명</li>
+<li>방식: 1:1 대결</li>
+<li>조건: 모든 참가자는 서로 한 번씩 대결해야 함</li>
+<li>점수: 승리 시 1점 획득, 패배 시 점수 변동 없음</li>
+<li>무승부: 없음</li>
+</ul>
+<h2>문제</h2>
+<ol>
+<li>
+<p>열 사람이 하는 게임의 총 횟수는?</p>
+</li>
+<li>
+<p>점수가 9점인 사람은 많아야 1명이다. 왜 그럴까?</p>
+</li>
+<li>
+<p>점수가 8점 이상인 사람은 최대 몇 명까지 가능할까?</p>
+</li>
+</ol>
+<h2>풀이</h2>
+<ol>
+<li>
+<p>열 사람이 하는 게임의 총 횟수:</p>
+<p>각 사람은 9명과 대결해야 하므로, 총 대결 횟수는 $10 \times 9 = 90$입니다. 하지만 이는 각 대결을 두 번 세는 것이므로, 실제 게임 횟수는 이의 절반입니다.</p>
+<p>따라서, 총 게임 횟수 = $\frac{10 \times 9}{2} = 45$</p>
+</li>
+<li>
+<p>점수가 9점인 사람은 많아야 1명인 이유:</p>
+<p>9점을 얻으려면 9명을 이겨야 합니다. 즉, 다른 9명 모두에게 이겨야 합니다. 만약 9점인 사람이 2명 이상 있다면, 그들은 서로 이겨야 하는데 이는 불가능합니다. 따라서 9점인 사람은 최대 1명만 가능합니다.</p>
+</li>
+<li>
+<p>점수가 8점 이상인 사람의 최대 수: 3명</p>
+<p>8점 이상인 사람이 4명일때 모순임을 보인 뒤에, 3명까지 가능한 경우를 찾아내어보자.</p>
+<img alt="10인 1대1 게임의 수학적 분석 도표" src="/images/ten_people_game(1).svg" style="width: 100%; max-width: 800px; height: auto; margin: 20px 0;"/>
+<p>8점 이상인 사람을 $a$, $b$, $c$, $d$라고 하자. $a \sim d$ 사이의 게임은 총 6회(완전그래프 $K_4$)이며 $a \sim d$는 서로 최대 한 번의 패배가 허용된다. 따라서 $a$, $b$, $c$, $d$는 서로 간의 게임에서 최소 2점을 확보해야 한다. 2점 이상을 확보하지 못했다는 것은 2회 이상의 패배를 의미하는 것이기 때문이다. 그러나 $a \sim d$ 간의 게임에서 얻게 되는 점수의 총합은 6점(4명 사이의 게임 횟수가 6회이므로)이고, 네 사람이 얻어야 하는 점수의 총합은 $4 \times 2 = 8$점 이상이므로 모순이 발생한다.</p>
+<p>따라서 8점 이상인 사람은 많아야 3명이다.</p>
+</li>
+</ol>
+<h2>3명은 가능한가?</h2>
+<p>실제로 3명이 됨을 시뮬레이션을 통해 확인할 수 있다. 이 과정은 파이썬으로 구현할 수 있고 그 결과는 html으로 받아보았다.</p>
+<a href="/pages/simulation_result.html" target="_blank">시뮬레이션 결과 보기</a>
+</div>
+<div class="footer">
+<p>이 페이지의 수식은 KaTeX를 사용하여 렌더링되었습니다.</p>
+</div>
+</div>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

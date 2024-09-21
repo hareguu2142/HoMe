@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>더하기로 표현되는 수</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1, h2 {
+            color: #4a4a4a;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        .math-container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #6e8efb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #a777e3;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .home-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #6e8efb;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<header>
+<a class="home-button" href="/" title="메인 페이지로 돌아가기">🏠</a>
+<h1>더하기로 표현되는 수</h1>
+</header>
+<div class="math-container">
+<h2>문제</h2>
+<p>1부터 $n$까지의 자연수의 합을 $S$라고 정의해봅시다. 수식으로 표현하면 다음과 같습니다:</p>
+            $$S = \sum_{i=1}^n i = \frac{n(n+1)}{2}$$
+            <p>이때 우리의 질문은 다음과 같습니다: 1부터 $n$까지의 수 중 일부를 선택하여 더했을 때, 1부터 $S$까지의 모든 자연수를 표현할 수 있을까요?</p>
+<h2>예시</h2>
+<p>예를 들어, $n = 3$일 때, $S = \frac{3(3+1)}{2} = 6$입니다. 이 경우, 1부터 3까지의 자연수(1, 2, 3)를 적절히 더하여 1부터 6까지의 모든 자연수를 다음과 같이 표현할 수 있습니다:</p>
+<ul>
+<li>1 = 1</li>
+<li>2 = 2</li>
+<li>3 = 3</li>
+<li>4 = 1 + 3</li>
+<li>5 = 2 + 3</li>
+<li>6 = 1 + 2 + 3</li>
+</ul>
+<p>이렇게 각 숫자를 1, 2, 3의 합으로 표현할 수 있습니다.</p>
+<h2>증명</h2>
+<p>이 결론을 증명하기 위해 <strong>수학적 귀납법</strong>을 사용합니다. 귀납법은 다음 두 단계를 포함합니다:</p>
+<ol>
+<li><strong>기초 단계 (Base Case):</strong> 주장이 성립하는 가장 작은 경우를 확인합니다.</li>
+<li><strong>귀납 단계 (Inductive Step):</strong> $n = k$일 때 주장이 성립한다고 가정하고, 이를 바탕으로 $n = k + 1$일 때도 주장이 성립함을 증명합니다.</li>
+</ol>
+<h3>1. 기초 단계</h3>
+<p><strong>$n = 1$일 때:</strong></p>
+<ul>
+<li><strong>집합:</strong> $\{1\}$</li>
+<li><strong>합 $S = \frac{1 \times (1 + 1)}{2} = 1$</strong></li>
+<li><strong>표현 가능한 수:</strong> $1$ (부분집합: $\{1\}$)</li>
+</ul>
+<p>따라서, $n = 1$일 때 1부터 1까지의 모든 자연수를 표현할 수 있습니다.</p>
+<h3>2. 귀납 단계</h3>
+<p><strong>가정 (Inductive Hypothesis):</strong><br/>
+            $n = k$일 때, 1부터 $S_k = \frac{k(k+1)}{2}$까지의 모든 자연수를, 집합 $\{1, 2, 3, \ldots, k\}$의 일부를 선택하여 더함으로써 표현할 수 있다고 가정합니다.</p>
+<p><strong>목표:</strong><br/>
+            $n = k + 1$일 때도 1부터 $S_{k+1} = \frac{(k+1)(k+2)}{2}$까지의 모든 자연수를, 집합 $\{1, 2, 3, \ldots, k, k+1\}$의 일부를 선택하여 더함으로써 표현할 수 있음을 증명합니다.</p>
+<p><strong>증명:</strong></p>
+<ol>
+<li><strong>기존 범위:</strong><br/>
+                귀납 가정에 의해, $\{1, 2, 3, \ldots, k\}$의 부분집합 합으로 1부터 $S_k$까지의 모든 자연수를 표현할 수 있습니다.</li>
+<li><strong>새로운 수 추가:</strong><br/>
+                새로운 숫자 $k + 1$을 추가함으로써, 기존 부분집합에 $k + 1$을 더한 새로운 부분합들이 생성됩니다.</li>
+<li><strong>새로운 범위의 표현 가능성:</strong>
+<ul>
+<li>기존 부분집합 합: $0$부터 $S_k$</li>
+<li>$k + 1$을 포함한 부분집합 합: $k + 1$부터 $S_k + (k + 1) = S_{k+1}$</li>
+</ul>
+<p><strong>중요한 점:</strong><br/>
+                    $k + 1 \leq S_k$이어야 모든 자연수가 연속적으로 표현될 수 있습니다.</p>
+</li>
+<li><strong>관계 확인:</strong><br/>
+                $$S_k = \frac{k(k + 1)}{2} \geq k + 1 \quad \text{인지 확인}$$
+                양변을 $k + 1$로 나누면:
+                $$\frac{k}{2} \geq 1 \quad \Rightarrow \quad k \geq 2$$
+                따라서, $k \geq 2$일 때 $S_k \geq k + 1$이 성립합니다. 이는 $n \geq 2$일 때 조건을 만족함을 의미합니다.</li>
+<li><strong>결론:</strong><br/>
+                따라서, $n = k + 1$일 때도 1부터 $S_{k+1}$까지의 모든 자연수를 표현할 수 있습니다.</li>
+</ol>
+<p><strong>귀납법을 통해 모든 $n$에 대해 1부터 $S = \frac{n(n + 1)}{2}$까지의 모든 자연수를, 1부터 $n$까지의 자연수의 부분집합 합으로 표현할 수 있음을 증명했습니다.</strong></p>
+</div>
+<div class="footer">
+<p>이 페이지의 수식은 KaTeX를 사용하여 렌더링되었습니다.</p>
+</div>
+</div>
+<script>
+        // 이 스크립트는 KaTeX 라이브러리를 사용하여 페이지의 수학 표현식을 렌더링합니다.
+        document.addEventListener("DOMContentLoaded", function() {
+            // DOM이 완전히 로드된 후 실행됩니다.
+            renderMathInElement(document.body, {
+                // document.body 내의 모든 수학 표현식을 렌더링합니다.
+                delimiters: [
+                    // 수학 표현식을 식별하기 위한 구분자를 정의합니다.
+                    {left: "$$", right: "$$", display: true},  // 블록 레벨 수식 (새 줄에 표시)
+                    {left: "$", right: "$", display: false}    // 인라인 수식 (텍스트 내에 표시)
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

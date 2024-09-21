@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>복소수의 제곱근</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1, h2, h3, h4 {
+            color: #4a4a4a;
+        }
+        h1 {
+            margin-top: 0px;
+            font-size: 2.5rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        h3 {
+            margin-top: 25px;
+            font-size: 1.5rem;
+        }
+        h4 {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+        .math-container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #6e8efb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #a777e3;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .home-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #6e8efb;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="home-button" title="메인 페이지로 돌아가기">🏠</a>
+            <h1>복소수의 제곱근 $\sqrt{i}$ 정의하기</h1>
+        </header>
+        <div class="math-container">
+            
+            <h2>목차</h2>
+            <ul>
+                <li><a href="#introduction">도입</a></li>
+                <li><a href="#quadratic-equation">이차방정식</a></li>
+                <li><a href="#calculate-sqrt-i">$\sqrt{i}$ 직접 계산하기</a></li>
+                <li><a href="#is-sqrt-i-two-values">$\sqrt{i}$가 두 개의 값을 나타내는 것인가?</a></li>
+                <li><a href="#specific-discussion">구체적인 논의</a></li>
+                <li><a href="#complex-square-root-proof">복소수의 제곱근 증명</a></li>
+                <li><a href="#polar-coordinate-proof">극좌표 표현을 통한 증명</a></li>
+                <li><a href="#quadratic-solution">돌아와서</a></li>
+            </ul>
+
+            <h2 id="introduction">도입</h2>
+            <p>
+                $i$는 복소수 체계에서 존재하는 수입니다. 이를 제곱근 기호를 사용하여 표현하면 다음과 같습니다:
+                $$
+                i = \sqrt{-1}
+                $$
+                $\sqrt{-1}$는 제곱해서 $-1$이 되는 수입니다.
+                그런데, 제곱해서 $-1$이 되는 수에는 $-i$도 있으며, $\sqrt{-1}=-i$로 정의하여도 수학적 모순을 일으키지 않습니다.
+                사실은 제곱해서 $-1$이 되는 수는 $i$와 $-i$이며, $\sqrt{-1}$은 두 수 중 하나를 임의로 선택했을 뿐입니다.
+                이러한 관점에서 $\sqrt{i}$는 과연 어떤 수일까요?
+            </p>
+
+            <h2 id="quadratic-equation">이차방정식</h2>
+            <p>
+                다음 이차방정식의 해를 구해봅시다.
+                $x^2+(5-3i)x+4-7i=0$
+                아마 구하는 것이 쉽지 않을 것입니다. 근의 공식을 쓰면 어떨까요? $i$를 그대로 둔채 근의 공식을 적용하면 다음처럼 나옵니다.
+                $$x=\frac{-(5-3i)\pm\sqrt{-2i}}{2}$$
+                $\sqrt{-2i}$가 구체적으로 어떤 복소수인지 알아야 합니다.
+            </p>
+
+            <h2 id="calculate-sqrt-i">$\sqrt{i}$ 직접 계산하기</h2>
+            <p>복소수 $\sqrt{i}$를 직접 계산해보겠습니다. 이를 위해 $\sqrt{i}$를 $a + bi$의 형태로 가정하고, 실수 $a$와 $b$를 구하겠습니다.</p>
+
+            <h3>1. 가정 설정</h3>
+            <p>
+                $$
+                \sqrt{i} = a + bi
+                $$
+                여기서 $a$와 $b$는 실수입니다.
+            </p>
+
+            <h3>2. 양변을 제곱하기</h3>
+            <p>
+                양변을 제곱하면 다음과 같습니다:
+                $$
+                (\sqrt{i})^2 = (a + bi)^2
+                $$
+                즉,
+                $$
+                i = a^2 + 2abi + (bi)^2
+                $$
+            </p>
+
+            <h3>3. 식 전개 및 정리</h3>
+            <p>
+                $i$의 표현을 확장해보면:
+                $$
+                i = a^2 + 2abi + b^2 i^2
+                $$
+                여기서 $i^2 = -1$임을 이용하면:
+                $$
+                i = a^2 + 2abi - b^2
+                $$
+                실수부와 허수부를 분리하여 정리하면:
+                $$
+                i = (a^2 - b^2) + (2ab)i
+                $$
+            </p>
+
+            <h3>4. 실수부와 허수부 비교</h3>
+            <p>
+                위의 식을 실수부와 허수부로 나누어 비교하면 다음과 같은 두 개의 방정식을 얻게 됩니다:
+                $$
+                \begin{cases}
+                  a^2 - b^2 = 0 \quad \text{(실수부)} \\
+                  2ab = 1 \quad \text{(허수부)}
+                \end{cases}
+                $$
+            </p>
+
+            <h3>5. 방정식 풀기</h3>
+            <p>
+                먼저 첫 번째 방정식에서:
+                $$
+                a^2 - b^2 = 0 \quad \Rightarrow \quad a^2 = b^2 \quad \Rightarrow \quad a = \pm b
+                $$
+                두 경우를 나눠서 생각해보겠습니다.
+            </p>
+
+            <h4>경우 1: $a = b$</h4>
+            <p>
+                두 번째 방정식에 대입하면:
+                $$
+                2a \cdot a = 1 \quad \Rightarrow \quad 2a^2 = 1 \quad \Rightarrow \quad a^2 = \frac{1}{2} \quad \Rightarrow \quad a = \pm \frac{1}{\sqrt{2}}
+                $$
+                따라서,
+                $$
+                a = \frac{1}{\sqrt{2}}, \quad b = \frac{1}{\sqrt{2}}
+                $$
+                또는
+                $$
+                a = -\frac{1}{\sqrt{2}}, \quad b = -\frac{1}{\sqrt{2}}
+                $$
+            </p>
+
+            <h4>경우 2: $a = -b$</h4>
+            <p>
+                두 번째 방정식에 대입하면:
+                $$
+                2a \cdot (-a) = 1 \quad \Rightarrow \quad -2a^2 = 1 \quad \Rightarrow \quad a^2 = -\frac{1}{2}
+                $$
+                이는 실수 $a$에 대해 불가능하므로, 이 경우는 배제됩니다.
+            </p>
+
+            <h3>6. 최종 결과</h3>
+            <p>
+                따라서, $\sqrt{i}$는 다음과 같이 두 가지 해를 가집니다:
+                $$
+                \sqrt{i} = \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{2}}i \quad \text{또는} \quad \sqrt{i} = -\frac{1}{\sqrt{2}} - \frac{1}{\sqrt{2}}i
+                $$
+                이를 간단히 표현하면:
+                $$
+                \sqrt{i} = \pm \left( \frac{1 + i}{\sqrt{2}} \right)
+                $$
+            </p>
+
+            <h3>7. 결론</h3>
+            <p>
+                따라서, 복소수 $\sqrt{i}$는 다음과 같이 두 개의 해를 가집니다:
+                $$
+                \sqrt{i} = \frac{1 + i}{\sqrt{2}} \quad \text{또는} \quad \sqrt{i} = -\frac{1 + i}{\sqrt{2}}
+                $$
+            </p>
+
+            <h2 id="is-sqrt-i-two-values">$\sqrt{i}$가 두 개의 값을 나타내는 것인가?</h2>
+            <p>
+                $\sqrt{i}$는 두 개의 값을 나타내는 것이 아닙니다. $\sqrt{-1}$이 두 개의 값($i$, $-i$)을 나타내는 것처럼 $\sqrt{i}$도 두 개의 값을 나타내는 것이 아니라, 하나를 정해주면 되는 이야기입니다.
+                그러면 어떻게 하나의 값을 정해야할까요? 그것은 정하기 나름인데, 저는 $\sqrt{i}$를 제곱해서 $i$가 되는 복소수 중에 허수부분이 양수인 수로 정의할 것 같습니다.
+            </p>
+
+            <h2 id="specific-discussion">구체적인 논의</h2>
+            <p>$\sqrt{z}$를 제곱해서 $z$가 되는 복소수 중에 허수부분이 양수인 수로 정의하려면 제곱해서 $z$가 되는 모든 복소수는 2개만 존재해야하고, 허수부분의 부호가 달라야합니다.</p>
+
+            <h2 id="complex-square-root-proof">복소수의 제곱근 증명</h2>
+            <p><strong>문제</strong>: 제곱해서 $z$가 되는 복소수($z$는 양수가 아님.)는 항상 두 개만 존재하며, 이 두 복소수의 허수 부분의 부호가 서로 다름을 증명.</p>
+
+            <h3>1. $z$가 음수인 경우</h3>
+            <p><strong>가정</strong>: $z$는 음수인 실수, 즉 $z = -c$ ($c > 0$)입니다.</p>
+
+            <h4>1.1. 복소수의 일반적인 형태와 제곱</h4>
+            <p>
+                복소수 $w = a + bi$ ($a, b \in \mathbb{R}$)의 제곱은 다음과 같습니다:
+                $$
+                w^2 = (a + bi)^2 = a^2 + 2abi + (bi)^2 = a^2 - b^2 + 2abi
+                $$
+                따라서,
+                $$
+                w^2 = (a^2 - b^2) + 2abi
+                $$
+            </p>
+
+            <h4>1.2. 제곱근을 찾기 위한 방정식 설정</h4>
+            <p>
+                $w^2 = z$이므로,
+                $$
+                a^2 - b^2 + 2abi = -c + 0i
+                $$
+                실수부와 허수부를 비교하면 다음과 같은 두 개의 방정식을 얻게 됩니다:
+                $$
+                \begin{cases}
+                  a^2 - b^2 = -c \quad \text{(1)} \\
+                  2ab = 0 \quad \quad \quad \text{(2)}
+                \end{cases}
+                $$
+            </p>
+
+            <h4>1.3. 방정식 풀기</h4>
+            <p>
+                방정식 (2)에서 $2ab = 0$이므로, $a = 0$ 또는 $b = 0$이어야 합니다.
+            </p>
+
+            <p><strong>경우 1</strong>: $a = 0$</p>
+            <p>
+                방정식 (1)에 대입하면,
+                $$
+                0^2 - b^2 = -c \quad \Rightarrow \quad -b^2 = -c \quad \Rightarrow \quad b^2 = c \quad \Rightarrow \quad b = \pm \sqrt{c}
+                $$
+                따라서, 두 개의 해는:
+                $$
+                w = 0 + \sqrt{c}i \quad \text{또는} \quad w = 0 - \sqrt{c}i
+                $$
+            </p>
+
+            <p><strong>경우 2</strong>: $b = 0$</p>
+            <p>
+                방정식 (1)에 대입하면,
+                $$
+                a^2 - 0^2 = -c \quad \Rightarrow \quad a^2 = -c
+                $$
+                이는 $c > 0$일 때, 실수 $a$에 대해 실현 불가능하므로 배제됩니다.
+            </p>
+
+            <p>
+                따라서, $z$가 음수인 경우, $w$는 다음 두 해를 가집니다:
+                $$
+                w = \sqrt{c}i \quad \text{또는} \quad w = -\sqrt{c}i
+                $$
+                이는 허수 부분의 부호가 서로 다름을 의미합니다.
+            </p>
+
+            <hr>
+
+            <h3>2. $z$가 순허수인 경우</h3>
+            <p><strong>가정</strong>: $z$는 순허수인 경우, 즉 $z = ki$ ($k \in \mathbb{R} \setminus \{0\}$)입니다.</p>
+
+            <h4>2.1. 복소수의 일반적인 형태와 제곱</h4>
+            <p>
+                복소수 $w = a + bi$ ($a, b \in \mathbb{R}$)의 제곱은 다음과 같습니다:
+                $$
+                w^2 = (a + bi)^2 = a^2 + 2abi + (bi)^2 = a^2 - b^2 + 2abi
+                $$
+                따라서,
+                $$
+                w^2 = (a^2 - b^2) + 2abi
+                $$
+            </p>
+
+            <h4>2.2. 제곱근을 찾기 위한 방정식 설정</h4>
+            <p>
+                $w^2 = z$이므로,
+                $$
+                a^2 - b^2 + 2abi = 0 + ki
+                $$
+                실수부와 허수부를 비교하면 다음과 같은 두 개의 방정식을 얻게 됩니다:
+                $$
+                \begin{cases}
+                  a^2 - b^2 = 0 \quad \quad \quad \text{(3)} \\
+                  2ab = k \quad \quad \quad \quad \text{(4)}
+                \end{cases}
+                $$
+            </p>
+
+            <h4>2.3. 방정식 풀기</h4>
+            <p>
+                방정식 (3)에서 $a^2 = b^2$, 즉 $a = \pm b$입니다. 두 가지 경우를 고려해보겠습니다.
+            </p>
+
+            <p><strong>경우 1</strong>: $a = b$</p>
+            <p>
+                방정식 (4)에 대입하면,
+                $$
+                2a \cdot a = k \quad \Rightarrow \quad 2a^2 = k \quad \Rightarrow \quad a^2 = \frac{k}{2} \quad \Rightarrow \quad a = \pm \sqrt{\frac{k}{2}}
+                $$
+                따라서,
+                $$
+                a = \sqrt{\frac{k}{2}}, \quad b = \sqrt{\frac{k}{2}} \quad \text{또는} \quad a = -\sqrt{\frac{k}{2}}, \quad b = -\sqrt{\frac{k}{2}}
+                $$
+            </p>
+
+            <p><strong>경우 2</strong>: $a = -b$</p>
+            <p>
+                방정식 (4)에 대입하면,
+                $$
+                2a \cdot (-a) = k \quad \Rightarrow \quad -2a^2 = k \quad \Rightarrow \quad a^2 = -\frac{k}{2}
+                $$
+                이는 $k \neq 0$일 때, 실수 $a$에 대해 실현 불가능하므로 배제됩니다.
+            </p>
+
+            <p>
+                따라서, $z$가 순허수인 경우, $w$는 다음 두 해를 가집니다:
+                $$
+                w = \sqrt{\frac{k}{2}} + \sqrt{\frac{k}{2}}i \quad \text{또는} \quad w = -\sqrt{\frac{k}{2}} - \sqrt{\frac{k}{2}}i
+                $$
+                이는 허수 부분의 부호가 서로 다름을 의미합니다.
+            </p>
+
+            <hr>
+
+            <h3>3. $z$가 일반적인 복소수인 경우</h3>
+            <p><strong>가정</strong>: $z$는 일반적인 복소수인 경우, 즉 $z = c + di$ ($c \neq 0$ 및 $d \neq 0$)입니다.</p>
+
+            <h4>3.1. 복소수의 일반적인 형태와 제곱</h4>
+            <p>
+                일반적인 복소수 $w = a + bi$ ($a, b \in \mathbb{R}$)의 제곱은 다음과 같습니다:
+                $$
+                w^2 = (a + bi)^2 = a^2 + 2abi + (bi)^2 = a^2 - b^2 + 2abi
+                $$
+                따라서,
+                $$
+                w^2 = (a^2 - b^2) + 2abi
+                $$
+            </p>
+
+            <h4>3.2. 제곱근을 찾기 위한 방정식 설정</h4>
+            <p>
+                주어진 복소수 $z = c + di$ ($c \neq 0$ 및 $d \neq 0$)에 대해 $w^2 = z$를 만족하는 $w = a + bi$를 찾기 위해, 다음과 같은 방정식을 세웁니다:
+                $$
+                (a^2 - b^2) + 2abi = c + di
+                $$
+                실수부와 허수부를 비교하면 다음과 같은 두 개의 실수 방정식을 얻게 됩니다:
+                $$
+                \begin{cases}
+                  a^2 - b^2 = c \quad \text{(1)} \\
+                  2ab = d \quad \quad \quad \text{(2)}
+                \end{cases}
+                $$
+            </p>
+
+            <h4>3.3. 방정식 풀기</h4>
+            <p><strong>3.3.1. 방정식 (2)에서 $b$를 $a$로 표현</strong></p>
+            <p>
+                방정식 (2)에서 $b$를 $a$로 표현하면:
+                $$
+                b = \frac{d}{2a}
+                $$
+            </p>
+
+            <p><strong>3.3.2. 방정식 (1)에 대입하여 $a$에 대한 방정식 도출</strong></p>
+            <p>
+                이 값을 방정식 (1)에 대입하면:
+                $$
+                a^2 - \left( \frac{d}{2a} \right)^2 = c
+                $$
+                양변을 $4a^2$으로 곱하여 분모를 제거합니다:
+                $$
+                4a^4 - d^2 = 4c a^2
+                $$
+                이를 정리하면:
+                $$
+                4a^4 - 4c a^2 - d^2 = 0
+                $$
+            </p>
+
+            <p><strong>3.3.3. $a^2$에 대한 이차 방정식으로 치환</strong></p>
+            <p>
+                $u = a^2$로 치환하면:
+                $$
+                4u^2 - 4c u - d^2 = 0
+                $$
+                이제 이차 방정식을 풀기 위해 근의 공식을 사용합니다:
+                $$
+                u = \frac{4c \pm \sqrt{(4c)^2 + 16d^2}}{8} = \frac{4c \pm \sqrt{16c^2 + 16d^2}}{8} = \frac{4c \pm 4\sqrt{c^2 + d^2}}{8} = \frac{c \pm \sqrt{c^2 + d^2}}{2}
+                $$
+                따라서,
+                $$
+                a^2 = \frac{c \pm \sqrt{c^2 + d^2}}{2}
+                $$
+            </p>
+
+            <p><strong>3.3.4. $a$와 $b$의 해 도출</strong></p>
+            <p>
+                실수 $a$는 $a^2$의 양의 해만을 가질 수 있으므로, $a$는 다음과 같이 두 개의 해를 가집니다:
+                $$
+                a = \pm \sqrt{ \frac{c + \sqrt{c^2 + d^2}}{2} }
+                $$
+                이제 $b$는 $b = \frac{d}{2a}$이므로, $a$의 부호에 따라 $b$의 부호도 결정됩니다. 따라서, 두 해는 다음과 같습니다:
+            </p>
+            <ol>
+                <li>$w_1 = a + b i$</li>
+                <li>$w_2 = -a - b i$</li>
+            </ol>
+
+            <h4>3.4. 두 제곱근의 허수 부분의 부호 관계</h4>
+            <p>
+                위에서 도출한 두 해 $w_1$과 $w_2$를 보면:
+                $$
+                w_1 = a + b i
+                $$
+                $$
+                w_2 = -a - b i
+                $$
+                따라서, 두 제곱근의 허수 부분은 $b$와 $-b$로, 부호가 서로 다릅니다.
+            </p>
+
+            <hr>
+
+            <h3>4. 결론</h3>
+            <p>위의 세 가지 경우를 종합하면 다음과 같습니다:</p>
+            <ul>
+                <li><strong>$z$</strong>가 음수인 경우: 제곱해서 <strong>$z$</strong>가 되는 복소수는 두 개이며, 이들의 허수 부분의 부호가 서로 다릅니다.</li>
+                <li><strong>$z$</strong>가 순허수인 경우: 제곱해서 <strong>$z$</strong>가 되는 복소수는 두 개이며, 이들의 허수 부분의 부호가 서로 다릅니다.</li>
+                <li><strong>$z$</strong>가 일반적인 복소수인 경우: 제곱해서 <strong>$z$</strong>가 되는 복소수는 두 개이며, 이들의 허수 부분의 부호가 서로 다릅니다.</li>
+            </ul>
+            <p>이는 다음과 같이 요약할 수 있습니다:</p>
+            $$
+            w_1 = a + b i \quad \text{및} \quad w_2 = -a - b i
+            $$
+            <p>여기서 $w_1$과 $w_2$의 허수 부분은 $b$와 $-b$로, 부호가 반대임을 알 수 있습니다.</p>
+
+
+            <h2 id="polar-coordinate-proof">극좌표 표현을 통한 증명</h2>
+
+            <p>복소수 $z$를 극좌표로 표현하면:</p>
+
+            $$
+            z = r \left( \cos \theta + i \sin \theta \right)
+            $$
+
+            <p>여기서 $r = \sqrt{c^2 + d^2}$이고, $\theta$는 $z$의 각도입니다. $z$의 제곱근은 다음과 같이 두 개 존재합니다:</p>
+
+            $$
+            w_1 = \sqrt{r} \left( \cos \frac{\theta}{2} + i \sin \frac{\theta}{2} \right)
+            $$
+            $$
+            w_2 = -\sqrt{r} \left( \cos \frac{\theta}{2} + i \sin \frac{\theta}{2} \right) = \sqrt{r} \left( \cos \left( \frac{\theta}{2} + \pi \right) + i \sin \left( \frac{\theta}{2} + \pi \right) \right)
+            $$
+
+            <p>이 두 제곱근은 극좌표 상에서 서로 $180^\circ$ (또는 $\pi$ 라디안) 차이를 가지며, 이는 두 제곱근의 허수 부분의 부호가 서로 다름을 의미합니다.</p>
+
+            <hr>
+
+            <!-- 통합된 이차 방정식 풀이 섹션 시작 -->
+            <h2 id="quadratic-solution">돌아와서</h2>
+            
+            <p></p>처음에 제시한 이차방정식의 풀이를 근의 공식을 통해 해보겠습니다.</p>
+            <p>$$
+            x^2 + (5 - 3i)x + (4 - 7i) = 0
+            $$</p>
+        
+            <h3>2. 근의 공식 적용</h3>
+            <p>일반적인 이차 방정식 $ax^2 + bx + c = 0$의 근은 다음과 같습니다:</p>
+            <p>$$
+            x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+            $$</p>
+            <p>여기서:</p>
+            <ul>
+                <li>$a = 1$</li>
+                <li>$b = 5 - 3i$</li>
+                <li>$c = 4 - 7i$</li>
+            </ul>
+            <p>먼저 판별식 $D = b^2 - 4ac$를 계산합니다.</p>
+            <p>$$
+            \begin{align*}
+            D &= (5 - 3i)^2 - 4(1)(4 - 7i) \\
+            &= 25 - 30i + 9i^2 - 16 + 28i \\
+            &= 25 - 30i - 9 - 16 + 28i \quad (\text{왜냐하면 } i^2 = -1) \\
+            &= (25 - 9 - 16) + (-30i + 28i) \\
+            &= 0 - 2i \\
+            &= -2i
+            \end{align*}
+            $$</p>
+            <p>따라서 근의 공식은 다음과 같습니다:</p>
+            <p>$$
+            x = \frac{-(5 - 3i) \pm \sqrt{-2i}}{2}
+            $$</p>
+        
+            <h3>3. $\sqrt{-2i}$ 계산</h3>
+            <p>$\sqrt{z}$는 $z$가 되는 복소수 중 허수 부분이 양수인 값을 취한다고 정의하였으므로, $\sqrt{-2i}$를 구해보겠습니다.</p>
+            <p>복소수 $w = a + bi$가 $\sqrt{-2i}$라면:</p>
+            <p>$$
+            w^2 = (a + bi)^2 = a^2 + 2abi + b^2i^2 = (a^2 - b^2) + 2abi = -2i
+            $$</p>
+            <p>이를 실수부와 허수부로 나누면:</p>
+            <p>$$
+            \begin{cases}
+            a^2 - b^2 = 0 \\
+            2ab = -2
+            \end{cases}
+            $$</p>
+            <p>첫 번째 방정식에서 $a^2 = b^2$이므로 $a = \pm b$입니다. 두 번째 방정식을 이용하면:</p>
+            <ul>
+                <li>$a = b$일 경우: $2b^2 = -2 \Rightarrow b^2 = -1$ (불가능)</li>
+                <li>$a = -b$일 경우: $-2b^2 = -2 \Rightarrow b^2 = 1 \Rightarrow b = 1$ (허수부가 양수이므로)</li>
+            </ul>
+            <p>따라서 $a = -1$이고, $\sqrt{-2i} = -1 + i$입니다.</p>
+        
+            <h3>4. 최종 근 구하기</h3>
+            <p>이제 근의 공식을 적용하여 두 근을 구합니다:</p>
+            <p>$$
+            x = \frac{-(5 - 3i) \pm (-1 + i)}{2} = \frac{-5 + 3i \pm (-1 + i)}{2}
+            $$</p>
+            <p>두 경우로 나누면:</p>
+            <ol>
+                <li>
+                    <p>$+$일 때:</p>
+                    <p>$$
+                    x = \frac{-5 + 3i - 1 + i}{2} = \frac{-6 + 4i}{2} = -3 + 2i
+                    $$</p>
+                </li>
+                <li>
+                    <p>$-$일 때:</p>
+                    <p>$$
+                    x = \frac{-5 + 3i + 1 - i}{2} = \frac{-4 + 2i}{2} = -2 + i
+                    $$</p>
+                </li>
+            </ol>
+        
+            <h3>결론</h3>
+            <p>주어진 방정식의 해는 다음과 같습니다:</p>
+            <p>$$
+            x = -3 + 2i \quad \text{또는} \quad x = -2 + i
+            $$</p>
+            <!-- 통합된 이차 방정식 풀이 섹션 끝 -->
+
+        </div>
+        
+
+        <div class="footer">
+            <p>이 페이지의 수식은 KaTeX를 사용하여 렌더링되었습니다.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+        // KaTeX 렌더링 스크립트는 그대로 유지합니다
+    </script>
+</body>
+</html>

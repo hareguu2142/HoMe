@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>데이터베이스 정리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1, h2 {
+            color: #4a4a4a;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        .content-container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #282c34;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        code {
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .home-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #6e8efb;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="home-button" title="메인 페이지로 돌아가기">🏠</a>
+            <h1>데이터베이스 정리</h1>
+        </header>
+        <div class="content-container">
+            <p>이 페이지는 데이터베이스에 관한 정보를 정리하는 곳입니다.</p>
+            
+            <p>MongoDB를 기준으로 설명하려고 합니다.</p>
+
+            <h2>MongoDB 연결 설정</h2>
+            <pre><code class="language-javascript">
+// Express 프레임워크 가져오기
+const express = require("express");
+
+// 파일 경로 작업을 위한 Node.js의 path 모듈 가져오기
+const path = require("path");
+
+// Express 애플리케이션 인스턴스 생성
+const app = express();
+
+// MongoDB 드라이버에서 MongoClient 가져오기
+const { MongoClient } = require("mongodb");
+
+// 서버가 리스닝할 포트 번호 설정
+const port = 3000;
+
+// MongoDB 연결 URI 설정
+// USERNAME, PASSWORD, CLUSTER_URL, DATABASE_NAME은 실제 값으로 대체해야 합니다.
+// <>은 쓸필요없습니다.
+const uri = "mongodb+srv://&lt;USERNAME&gt;:&lt;PASSWORD&gt;@&lt;CLUSTER_URL&gt;/&lt;DATABASE_NAME&gt;?retryWrites=true&w=majority";
+
+// MongoClient 인스턴스 생성
+const client = new MongoClient(uri);
+            </code></pre>
+
+            <h2>데이터베이스 쿼리 예제</h2>
+            <pre><code class="language-javascript">
+app.get("/find", async (req, res) => {
+    // 쿼리 파라미터에서 camo와 field 값 추출
+    const { camo, field } = req.query;
+  
+    // camo 파라미터가 없으면 에러 응답
+    if (!camo) {
+        return res.status(400).json({ error: "camo parameter is required" });
+    }
+  
+    try {
+        // MongoDB에 연결
+        await client.connect();
+        // 데이터베이스와 컬렉션 선택
+        const database = client.db("code_to_map");
+        const collection = database.collection("code_to_map");
+        // 쿼리 객체 생성
+        const query = { camo: camo };
+        // 쿼리 실행하여 문서 찾기
+        const document = await collection.findOne(query);
+  
+        if (document) {
+            const id = document._id;
+            let selectedField = field;
+  
+            // 선택된 필드가 문서에 존재하는지 확인
+            if (selectedField in document) {
+                const fieldValue = document[selectedField];
+                return res.json(fieldValue);
+            } else {
+                // 필드가 존재하지 않으면 에러 응답
+                return res.status(404).json({
+                    error: `Field '${selectedField}' not found in the document`,
+                });
+            }
+        } else {
+            // 문서를 찾지 못했을 때 에러 응답
+            return res
+                .status(404)
+                .json({ error: "No document found with the given camo value" });
+        }
+    } catch (error) {
+        // 데이터베이스 쿼리 중 오류 발생 시 에러 로깅 및 응답
+        console.error("Error occurred while querying the database:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+            </code></pre>
+            
+            <p>이 코드는 데이터베이스에서 특정 값을 찾는 예제입니다.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

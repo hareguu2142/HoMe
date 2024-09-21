@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vercel 설정 정보</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1, h2 {
+            color: #4a4a4a;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        .content-container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #282c34;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .home-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #6e8efb;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+    </style>
+</link></head>
+<body>
+<div class="container">
+<header>
+<a class="home-button" href="/" title="메인 페이지로 돌아가기">🏠</a>
+<h1>Vercel 설정 정보</h1>
+</header>
+<div class="content-container">
+<p>이 페이지는 Vercel 배포 설정에 대한 정보를 제공합니다.</p>
+<h2>vercel.json 설정</h2>
+<pre><code class="language-json">
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.js",			
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/app.js",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate"
+      }
+    }
+  ]
+}
+            </code></pre>
+<h2>JSON 설정 설명</h2>
+<ul>
+<li><strong>version</strong>: Vercel 설정 파일의 버전을 나타냅니다. 여기서는 2를 사용하고 있습니다.</li>
+<li><strong>builds</strong>: 빌드 설정을 정의합니다.
+                    <ul>
+<li><strong>src</strong>: 빌드할 소스 파일을 지정합니다. 여기서는 "app.js"를 사용합니다.</li>
+<li><strong>use</strong>: 사용할 빌드 런타임을 지정합니다. "@vercel/node"는 Node.js 애플리케이션을 위한 것입니다.</li>
+</ul>
+</li>
+<li><strong>routes</strong>: 라우팅 규칙을 정의합니다.
+                    <ul>
+<li><strong>src</strong>: 모든 요청을 매칭하는 정규식입니다.</li>
+<li><strong>dest</strong>: 모든 요청을 "app.js"로 전달합니다.</li>
+<li><strong>headers</strong>: 응답 헤더를 설정합니다. 여기서는 캐시를 비활성화하는 설정을 하고 있습니다.</li>
+</ul>
+</li>
+</ul>
+<h2>모든 환경과 프레임워크에 적용 가능</h2>
+<ul>
+<li>이 캐시 설정은 Vercel을 통해 배포된 모든 정적 및 동적 파일에 적용됩니다.</li>
+<li>Flask, JavaScript 등 백엔드 또는 프런트엔드 프레임워크에 상관없이 적용됩니다.</li>
+<li>Vercel의 Edge Network가 요청을 처리할 때 설정한 Cache-Control 헤더가 적용됩니다.</li>
+<li>애플리케이션의 언어나 프레임워크에 구애받지 않고 캐싱 동작을 제어할 수 있습니다.</li>
+</ul>
+<p><strong>주의사항: 백엔드 서버(예: Flask)에서 직접 응답 헤더를 설정하는 경우, 해당 설정이 Vercel 설정보다 우선될 수 있습니다. 일관된 캐싱 정책을 유지하려면 Vercel 설정과 애플리케이션 코드에서 설정한 헤더 간의 충돌이 없도록 주의해야 합니다.</strong></p>
+<p>실제 운영 환경에서는 성능과 사용자 경험을 고려하여 적절한 캐싱 전략을 사용하여 성능을 최적화하는 것이 좋습니다. 특정 리소스나 API 엔드포인트에 대해서만 캐시를 비활성화하는 것을 고려해보세요.</p>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>
