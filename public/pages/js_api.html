@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API 테스트 페이지</title>
+<style>
+    body {
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f8ff;
+        color: #333;
+    }
+    .wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .header {
+        background-color: #4a90e2;
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+    }
+    h1, h2 {
+        color: #2c3e50;
+    }
+    .input-container, .output-container {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    button {
+        background-color: #4a90e2;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #357ae8;
+    }
+    #output {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<header class="header">
+<h1>API 테스트 페이지</h1>
+</header>
+<main>
+<section class="input-container">
+<h2>사용자 정보 입력</h2>
+<input id="id" placeholder="ID 입력" type="text"/>
+<input id="name" placeholder="이름 입력" type="text"/>
+<input id="age" placeholder="나이 입력" type="number"/>
+<button onclick="fetchUserData()">데이터 가져오기</button>
+</section>
+<section class="output-container">
+<h2>API 응답</h2>
+<pre id="output"></pre>
+</section>
+</main>
+</div>
+<script>
+    async function fetchUserData() {
+        const id = document.getElementById('id').value;
+        const name = document.getElementById('name').value;
+        const age = document.getElementById('age').value;
+
+        const url = `https://apis-jade-five.vercel.app/api/users?id=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}&age=${encodeURIComponent(age)}`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+            console.error('Fetch error:', error);
+            document.getElementById('output').textContent = '에러 발생: ' + error.message;
+        }
+    }
+</script>
+</body>
+</html>
