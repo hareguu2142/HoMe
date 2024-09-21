@@ -11,39 +11,59 @@
         line-height: 1.6;
         margin: 0;
         padding: 0;
-        background-color: #f0f8ff;
-        color: #333;
+        background-color: #fff0f0;
+        color: #4a0000;
     }
     .wrapper {
-        max-width: 800px;
-        margin: 0 auto;
+        display: flex;
+        min-height: 100vh;
+    }
+    .sidebar {
+        width: 250px;
+        background-color: #ff6b6b;
         padding: 20px;
+        color: #ffffff;
+    }
+    .content {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff5f5;
     }
     .header {
-        background-color: #4a90e2;
+        background-color: #ffa07a;
         padding: 20px;
         text-align: center;
         color: #ffffff;
     }
     h1, h2 {
-        color: #2c3e50;
+        color: #8b0000;
+    }
+    .nav-link {
+        display: block;
+        padding: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .nav-link:hover {
+        background-color: #ff4500;
     }
     .input-container, .output-container {
         background-color: #fff;
         padding: 20px;
         margin: 20px 0;
         border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 5px rgba(255,0,0,0.1);
     }
     input[type="text"], input[type="number"] {
         width: 100%;
         padding: 10px;
         margin: 10px 0;
-        border: 1px solid #ddd;
+        border: 1px solid #ffd0d0;
         border-radius: 4px;
     }
     button {
-        background-color: #4a90e2;
+        background-color: #ff6b6b;
         color: #fff;
         border: none;
         padding: 10px 20px;
@@ -51,20 +71,31 @@
         transition: background-color 0.3s;
     }
     button:hover {
-        background-color: #357ae8;
+        background-color: #ff4500;
     }
     #output {
         white-space: pre-wrap;
         word-wrap: break-word;
     }
+    .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffa07a;
+        color: #ffffff;
+    }
 </style>
 </head>
 <body>
 <div class="wrapper">
+<aside class="sidebar">
+<nav>
+<a class="nav-link" href="/">홈</a>
+</nav>
+</aside>
+<main class="content">
 <header class="header">
 <h1>API 테스트 페이지</h1>
 </header>
-<main>
 <section class="input-container">
 <h2>사용자 정보 입력</h2>
 <input id="id" placeholder="ID 입력" type="text"/>
@@ -76,6 +107,9 @@
 <h2>API 응답</h2>
 <pre id="output"></pre>
 </section>
+<footer class="footer">
+<p>API 테스트 페이지 © 2023</p>
+</footer>
 </main>
 </div>
 <script>
