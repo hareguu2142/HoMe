@@ -1,19 +1,15 @@
-
 <!DOCTYPE html>
 
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>수학 공식 및 코드 스니펫 페이지</title>
-<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<title>코드 스니펫 복사 기능 예제</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 <style>
     body {
         font-family: 'Noto Sans KR', Arial, sans-serif;
-        line-height: 1.6;
+        line-height: 1.8;
         margin: 0;
         padding: 0;
         background-color: #fff0f0;
@@ -34,14 +30,73 @@
         padding: 20px;
         background-color: #fff5f5;
     }
-    .header {
-        background-color: #ffa07a;
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background-color: #ffffff;
+        box-shadow: 0 0 20px rgba(255,0,0,0.1);
+        border-radius: 10px;
+    }
+    header {
+        background: linear-gradient(135deg, #ff6b6b, #ffa07a);
         padding: 20px;
         text-align: center;
         color: #ffffff;
+        border-radius: 10px 10px 0 0;
+        position: relative;
     }
-    h1, h2, h3, h4 {
+    h1 {
+        margin-top: 0;
+        font-size: 2.5rem;
+    }
+    h2 {
         color: #8b0000;
+        margin-top: 30px;
+    }
+    .code-container {
+        position: relative;
+        margin-top: 30px;
+        background-color: #fff5f5;
+        padding: 20px;
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+    pre {
+        margin: 0;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 12px;
+        background-color: #ff6b6b;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+    }
+    .code-container:hover .copy-btn {
+        opacity: 1;
+    }
+    .copy-btn:hover {
+        background-color: #ff4500;
+    }
+    .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #8b0000;
+    }
+    .explanation {
+        margin-top: 30px;
+        background-color: #fff5f5;
+        padding: 20px;
+        border-radius: 5px;
     }
     .nav-link {
         display: block;
@@ -53,30 +108,6 @@
     .nav-link:hover {
         background-color: #ff4500;
     }
-    .math-container, .code-container {
-        background-color: #fff;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(255,0,0,0.1);
-    }
-    .copy-btn {
-        background-color: #ff6b6b;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    .copy-btn:hover {
-        background-color: #ff4500;
-    }
-    .footer {
-        text-align: center;
-        padding: 20px;
-        background-color: #ffa07a;
-        color: #ffffff;
-    }
 </style>
 </head>
 <body>
@@ -84,39 +115,48 @@
 <aside class="sidebar">
 <nav>
 <a class="nav-link" href="/">홈</a>
-<a class="nav-link" href="#">수학 공식</a>
-<a class="nav-link" href="#">코드 스니펫</a>
-<a class="nav-link" href="#">도움말</a>
+<a class="nav-link" href="#code-example">코드 예시</a>
+<a class="nav-link" href="#explanation">기능 설명</a>
 </nav>
 </aside>
 <main class="content">
-<header class="header">
-<h1>수학 공식 및 코드 스니펫 페이지</h1>
+<div class="container">
+<header>
+<h1>코드 스니펫 복사 기능 예제</h1>
 </header>
-<section class="math-container">
-<h2>수학 공식</h2>
-<p>KaTeX를 사용하여 수학 공식을 렌더링합니다. 예시: $E = mc^2$</p>
-</section>
-<section class="code-container">
-<h2>코드 스니펫</h2>
-<pre><code>console.log("Hello, World!");</code></pre>
-<button class="copy-btn" data-clipboard-target="code">복사</button>
-</section>
-<footer class="footer">
-<p>이 페이지의 수식은 katex를 사용하여 렌더링되었습니다.</p>
-</footer>
+<h2 id="code-example">JavaScript 코드 예시</h2>
+<div class="code-container">
+<pre><code id="codeSnippet">function sumToN(n) {
+    let sum = 0;
+    for (let i = 1; i &lt;= n; i++) {
+        sum += i;
+    }
+    return sum;
+}
+
+// 예시: 1부터 100까지의 합
+console.log(sumToN(100));</code></pre>
+<button class="copy-btn" data-clipboard-target="#codeSnippet">복사</button>
+</div>
+<h2>코드 스니펫 복사 기능 설명</h2>
+<div class="explanation" id="explanation">
+<p>이 페이지는 코드 스니펫에 복사 기능을 추가하는 방법을 보여줍니다:</p>
+<ol>
+<li>ClipboardJS 라이브러리를 사용하여 복사 기능을 구현했습니다.</li>
+<li>코드 영역에 마우스를 올리면 '복사' 버튼이 나타납니다.</li>
+<li>'복사' 버튼을 클릭하면 코드가 클립보드에 복사됩니다.</li>
+<li>복사 성공 시 알림 메시지가 표시됩니다.</li>
+<li>복사 실패 시 오류 메시지가 표시됩니다.</li>
+</ol>
+<p>이 기능은 사용자가 쉽게 코드를 복사하여 사용할 수 있게 해줍니다.</p>
+</div>
+<div class="footer">
+<p>이 페이지는 코드 스니펫 복사 기능 예제를 보여줍니다.</p>
+</div>
+</div>
 </main>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ]
-        });
-    });
-
     const clipboard = new ClipboardJS('.copy-btn');
     clipboard.on('success', function(e) {
         alert('코드가 클립보드에 복사되었습니다!');
