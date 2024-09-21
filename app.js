@@ -85,6 +85,12 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
+app.get('/icon.ico', (req, res) => {
+  res.type('image/x-icon');
+  res.sendFile(path.join(__dirname, 'public', 'icon.ico'));
+});
+
+
 // 루트 경로에 대한 라우트 핸들러
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
