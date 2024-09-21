@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vercel Login 문제 해결</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            color: #4a4a4a;
+            margin-top: 30px;
+        }
+        .code-container {
+            position: relative;
+            margin-top: 30px;
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffffff;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #6e8efb;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .code-container:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn:hover {
+            background-color: #a777e3;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .explanation {
+            margin-top: 30px;
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .user-message, .assistant-message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #e6f3ff;
+        }
+        .assistant-message {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Vercel Login 문제 해결</h1>
+</header>
+<h2>PowerShell 실행 정책 변경 오류</h2>
+<div class="user-message">
+<h3>사용자:</h3>
+<div class="code-container">
+<pre><code id="userMessage">PS C:\Users\isomo\OneDrive\바탕 화면\깃허브\HoMe&gt; vercel login
+vercel : 이 시스템에서 스크립트를 실행할 수 없으므로 C:\Users\isomo\AppData\Roaming\npm\vercel.ps1 파일을 로드할 수 없습니다. 자세한 내용은 about_Execution_Policies(https://go.
+microsoft.com/fwlink/?LinkID=135170)를 참조하십시오.
+위치 줄:1 문자:1
++ vercel login
++ ~~~~~~
+    + CategoryInfo          : 보안 오류: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess</code></pre>
+<button class="copy-btn" data-clipboard-target="#userMessage">복사</button>
+</div>
+</div>
+<div class="assistant-message">
+<h3>해결:</h3>
+<p>이 오류는 PowerShell에서 스크립트 실행이 차단되어 발생합니다. 이를 해결하려면 PowerShell의 실행 정책을 변경해야 합니다. 다음 단계를 따라 해보세요:</p>
+<ol>
+<li>PowerShell을 관리자 권한으로 실행:
+                <ul>
+<li>시작 메뉴에서 "PowerShell"을 검색하고, "Windows PowerShell"을 오른쪽 클릭한 후 "관리자 권한으로 실행"을 선택합니다.</li>
+</ul>
+</li>
+<li>실행 정책 변경:
+                <ul>
+<li>아래 명령어를 입력하고 Enter 키를 누릅니다:</li>
+</ul>
+<div class="code-container">
+<pre><code id="policyChange">Set-ExecutionPolicy RemoteSigned</code></pre>
+<button class="copy-btn" data-clipboard-target="#policyChange">복사</button>
+</div>
+<ul>
+<li>경고 메시지가 나타나면 Y를 입력하여 변경을 승인합니다.</li>
+</ul>
+</li>
+<li>PowerShell을 종료하고 다시 시도:
+                <ul>
+<li>PowerShell을 닫은 후, 다시 일반 권한으로 PowerShell을 열고 vercel login 명령어를 실행해 보세요.</li>
+</ul>
+</li>
+</ol>
+<p>이 방법으로 문제가 해결될 것입니다!</p>
+</div>
+<div class="user-message">
+<h3>사용자:</h3>
+<div class="code-container">
+<pre><code id="userMessage2">PS C:\Users\isomo\OneDrive\바탕 화면\깃허브\HoMe&gt; Set-ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy : 레지스트리 키 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell'에 대한 액세스가 거부되었습니다. 기본(LocalMachine) Scope
+에 대한 실행 정책을 변경하려면 "관리자 권한으로 실행" 옵션으로 Windows PowerShell을 시작하십시오. 현재 사용자에 대한 실행 정책을 변경하려면 "Set-ExecutionPolicy -Scope CurrentU 
+ser"를 실행하십시오.
+위치 줄:1 문자:1
++ Set-ExecutionPolicy RemoteSigned
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (:) [Set-ExecutionPolicy], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.SetExecutionPolicyCommand</code></pre>
+<button class="copy-btn" data-clipboard-target="#userMessage2">복사</button>
+</div>
+</div>
+<div class="assistant-message">
+<h3>해결:</h3>
+<p>이 오류는 PowerShell을 관리자 권한으로 실행하지 않아서 발생합니다. 현재 사용자에 대한 실행 정책을 변경하려면 -Scope CurrentUser를 사용하여 실행하세요. 아래의 명령어를 입력해 보세요:</p>
+<ol>
+<li>PowerShell을 관리자 권한으로 실행 (앞서 언급한 방법으로):
+                <ul>
+<li>"Windows PowerShell"을 검색한 후, 오른쪽 클릭하고 "관리자 권한으로 실행" 선택.</li>
+</ul>
+</li>
+<li>실행 정책 변경:
+                <ul>
+<li>아래 명령어를 입력하고 Enter 키를 누릅니다:</li>
+</ul>
+<div class="code-container">
+<pre><code id="policyChange2">Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned</code></pre>
+<button class="copy-btn" data-clipboard-target="#policyChange2">복사</button>
+</div>
+</li>
+<li>변경 확인:
+                <ul>
+<li>정책이 제대로 변경되었는지 확인하려면 다음 명령어를 입력하세요:</li>
+</ul>
+<div class="code-container">
+<pre><code id="policyCheck">Get-ExecutionPolicy -List</code></pre>
+<button class="copy-btn" data-clipboard-target="#policyCheck">복사</button>
+</div>
+</li>
+<li>PowerShell 종료 후 다시 시도:
+                <ul>
+<li>이제 일반 권한으로 PowerShell을 열고 vercel login 명령어를 다시 실행해 보세요.</li>
+</ul>
+</li>
+</ol>
+<p>이렇게 하면 문제가 해결될 것입니다!</p>
+</div>
+</div>
+<script>
+    const clipboard = new ClipboardJS('.copy-btn');
+    clipboard.on('success', function(e) {
+        alert('코드가 클립보드에 복사되었습니다!');
+        e.clearSelection();
+    });
+    clipboard.on('error', function(e) {
+        alert('코드 복사에 실패했습니다.');
+    });
+</script>
+</body>
+</html>
