@@ -37,7 +37,7 @@ app.get("/api/posts", async (req, res) => {
 
     const totalPosts = await collection.countDocuments();
     const posts = await collection.find({})
-                                 .sort({ date: -1 })
+                                 .sort({ date: -1, _id: -1 })
                                  .skip(skip)
                                  .limit(limit)
                                  .toArray();
@@ -68,7 +68,7 @@ app.get("/api/search", async (req, res) => {
 
     const totalPosts = await collection.countDocuments(query);
     const posts = await collection.find(query)
-                                  .sort({ date: -1 })
+                                  .sort({ date: -1, _id: -1 })
                                   .skip(skip)
                                   .limit(limit)
                                   .toArray();
