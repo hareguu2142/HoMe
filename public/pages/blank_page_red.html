@@ -4,12 +4,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>코드 스니펫 복사 기능 예제</title>
+<title>수학 공식 및 코드 스니펫 빈 페이지</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 <style>
     body {
         font-family: 'Noto Sans KR', Arial, sans-serif;
-        line-height: 1.8;
+        line-height: 1.6;
         margin: 0;
         padding: 0;
         background-color: #fff0f0;
@@ -18,46 +21,121 @@
     .wrapper {
         display: flex;
         min-height: 100vh;
+        flex-direction: row;
     }
     .sidebar {
         width: 250px;
         background-color: #ff6b6b;
         padding: 20px;
         color: #ffffff;
+        flex-shrink: 0;
+        transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.hidden {
+        transform: translateX(-100%);
     }
     .content {
         flex: 1;
         padding: 20px;
         background-color: #fff5f5;
     }
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 40px 20px;
-        background-color: #ffffff;
-        box-shadow: 0 0 20px rgba(255,0,0,0.1);
-        border-radius: 10px;
-    }
-    header {
-        background: linear-gradient(135deg, #ff6b6b, #ffa07a);
+    .header {
+        background-color: #ffa07a;
         padding: 20px;
         text-align: center;
         color: #ffffff;
-        border-radius: 10px 10px 0 0;
-        position: relative;
     }
-    h1 {
-        margin-top: 0;
-        font-size: 2.5rem;
-    }
-    h2 {
+    h1, h2 {
         color: #8b0000;
-        margin-top: 30px;
+    }
+    .nav-link {
+        display: block;
+        padding: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .nav-link:hover {
+        background-color: #ff4500;
+    }
+    .input-container, .output-container {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(255,0,0,0.1);
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ffd0d0;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #ff6b6b;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #ff4500;
+    }
+    #output {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-x: auto;
+    }
+    .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffa07a;
+        color: #ffffff;
+    }
+    @media (max-width: 768px) {
+        .wrapper {
+            flex-direction: column;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 1000;
+            transform: translateX(-100%);
+            width: 250px;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+        .content {
+            padding: 20px;
+        }
+        .header {
+            position: relative;
+        }
+        .menu-toggle {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #ff6b6b;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 18px;
+        }
     }
     .code-container {
         position: relative;
         margin-top: 30px;
-        background-color: #fff5f5;
+        background-color: #000000;
         padding: 20px;
         border-radius: 5px;
         overflow-x: auto;
@@ -65,6 +143,11 @@
     pre {
         margin: 0;
         font-family: 'Courier New', Courier, monospace;
+        color: #ffffff;
+    }
+    code {
+        font-family: 'Courier New', Courier, monospace;
+        color: #ffffff;
     }
     .copy-btn {
         position: absolute;
@@ -86,77 +169,63 @@
     .copy-btn:hover {
         background-color: #ff4500;
     }
-    .footer {
-        margin-top: 30px;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #8b0000;
-    }
-    .explanation {
-        margin-top: 30px;
-        background-color: #fff5f5;
-        padding: 20px;
-        border-radius: 5px;
-    }
-    .nav-link {
-        display: block;
-        padding: 10px;
-        color: #ffffff;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
-    .nav-link:hover {
-        background-color: #ff4500;
-    }
 </style>
 </head>
 <body>
 <div class="wrapper">
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 <nav>
 <a class="nav-link" href="/">홈</a>
-<a class="nav-link" href="#code-example">코드 예시</a>
-<a class="nav-link" href="#explanation">기능 설명</a>
 </nav>
 </aside>
 <main class="content">
-<div class="container">
-<header>
-<h1>코드 스니펫 복사 기능 예제</h1>
+<header class="header">
+<button aria-label="메뉴 열기" class="menu-toggle" id="menu-toggle">☰</button>
+<h1>수학 공식 및 코드 스니펫 빈 페이지</h1>
 </header>
-<h2 id="code-example">JavaScript 코드 예시</h2>
+<section class="input-container">
+<h2>페이지 소개</h2>
+<p>이 페이지는 수학 공식과 코드 스니펫을 표시하고 복사할 수 있는 기능을 제공합니다:</p>
+<ul>
+<li>KaTeX 라이브러리를 사용하여 수학 공식을 렌더링합니다.</li>
+<li>ClipboardJS를 사용하여 코드 스니펫 복사 기능을 구현했습니다.</li>
+<li>수학 공식은 LaTeX 문법으로 작성할 수 있습니다.</li>
+<li>코드 스니펫은 복사 버튼을 통해 쉽게 복사할 수 있습니다.</li>
+</ul>
+<p>아래에 수학 공식과 코드 스니펫 예시를 추가하여 사용할 수 있습니다.</p>
+</section>
+<section class="output-container">
+<h2>수학 공식 예시</h2>
+<div class="math-container">
+                $$E = mc^2$$
+            </div>
+</section>
+<section class="output-container">
+<h2>코드 스니펫 예시</h2>
 <div class="code-container">
-<pre><code id="codeSnippet">function sumToN(n) {
-    let sum = 0;
-    for (let i = 1; i &lt;= n; i++) {
-        sum += i;
-    }
-    return sum;
+<pre><code>
+function helloWorld() {
+    console.log("Hello, World!");
 }
-
-// 예시: 1부터 100까지의 합
-console.log(sumToN(100));</code></pre>
-<button class="copy-btn" data-clipboard-target="#codeSnippet">복사</button>
+                </code></pre>
+<button class="copy-btn" data-clipboard-target="code">복사</button>
 </div>
-<h2>코드 스니펫 복사 기능 설명</h2>
-<div class="explanation" id="explanation">
-<p>이 페이지는 코드 스니펫에 복사 기능을 추가하는 방법을 보여줍니다:</p>
-<ol>
-<li>ClipboardJS 라이브러리를 사용하여 복사 기능을 구현했습니다.</li>
-<li>코드 영역에 마우스를 올리면 '복사' 버튼이 나타납니다.</li>
-<li>'복사' 버튼을 클릭하면 코드가 클립보드에 복사됩니다.</li>
-<li>복사 성공 시 알림 메시지가 표시됩니다.</li>
-<li>복사 실패 시 오류 메시지가 표시됩니다.</li>
-</ol>
-<p>이 기능은 사용자가 쉽게 코드를 복사하여 사용할 수 있게 해줍니다.</p>
-</div>
-<div class="footer">
-<p>이 페이지는 코드 스니펫 복사 기능 예제를 보여줍니다.</p>
-</div>
-</div>
+</section>
+<footer class="footer">
+<p>© 2023 수학 공식 및 코드 스니펫 페이지. 모든 권리 보유.</p>
+</footer>
 </main>
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+
     const clipboard = new ClipboardJS('.copy-btn');
     clipboard.on('success', function(e) {
         alert('코드가 클립보드에 복사되었습니다!');
@@ -164,6 +233,21 @@ console.log(sumToN(100));</code></pre>
     });
     clipboard.on('error', function(e) {
         alert('코드 복사에 실패했습니다.');
+    });
+
+    // 모바일 메뉴 토글 기능
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('visible');
+    });
+
+    // 사이드바 외부 클릭 시 닫기
+    document.addEventListener('click', (event) => {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('visible');
+        }
     });
 </script>
 </body>
