@@ -17,12 +17,18 @@
     .wrapper {
         display: flex;
         min-height: 100vh;
+        flex-direction: row;
     }
     .sidebar {
         width: 250px;
         background-color: #ff6b6b;
         padding: 20px;
         color: #ffffff;
+        flex-shrink: 0;
+        transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.hidden {
+        transform: translateX(-100%);
     }
     .content {
         flex: 1;
@@ -61,6 +67,7 @@
         margin: 10px 0;
         border: 1px solid #ffd0d0;
         border-radius: 4px;
+        box-sizing: border-box;
     }
     button {
         background-color: #ff6b6b;
@@ -69,6 +76,8 @@
         padding: 10px 20px;
         cursor: pointer;
         transition: background-color 0.3s;
+        border-radius: 4px;
+        font-size: 16px;
     }
     button:hover {
         background-color: #ff4500;
@@ -76,6 +85,7 @@
     #output {
         white-space: pre-wrap;
         word-wrap: break-word;
+        overflow-x: auto;
     }
     .footer {
         text-align: center;
@@ -83,17 +93,55 @@
         background-color: #ffa07a;
         color: #ffffff;
     }
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+        .wrapper {
+            flex-direction: column;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 1000;
+            transform: translateX(-100%);
+            width: 250px;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+        .content {
+            padding: 20px;
+        }
+        .header {
+            position: relative;
+        }
+        .menu-toggle {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #ff6b6b;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+    }
 </style>
 </head>
 <body>
 <div class="wrapper">
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 <nav>
 <a class="nav-link" href="/">홈</a>
+<!-- 추가적인 네비게이션 링크를 여기에 추가할 수 있습니다 -->
 </nav>
 </aside>
 <main class="content">
 <header class="header">
+<button aria-label="메뉴 열기" class="menu-toggle" id="menu-toggle">☰</button>
 <h1>API 테스트 페이지</h1>
 </header>
 <section class="input-container">
@@ -137,6 +185,21 @@
             document.getElementById('output').textContent = '에러 발생: ' + error.message;
         }
     }
+
+    // 모바일 메뉴 토글 기능
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('visible');
+    });
+
+    // 사이드바 외부 클릭 시 닫기
+    document.addEventListener('click', (event) => {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('visible');
+        }
+    });
 </script>
 </body>
 </html>
