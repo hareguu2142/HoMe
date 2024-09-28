@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>유일성 자체와 코딩의 비교</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+        h1, h2, h3, h4 {
+            color: #4a4a4a;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #6e8efb;
+            padding-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 25px;
+        }
+        h4 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        .math-container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #6e8efb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #a777e3;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .home-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #6e8efb;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+        thead {
+            background-color: #6e8efb;
+            color: #ffffff;
+        }
+        th {
+            font-weight: 600;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tbody tr:hover {
+            background-color: #e9ecef;
+            transition: background-color 0.3s ease;
+        }
+        .code-container {
+            position: relative;
+            margin-top: 30px;
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            color: #ffffff;
+        }
+        pre {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: #000000;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffffff;
+        }
+        .code-highlight {
+            color: #ff0000;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #6e8efb;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .code-container:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn:hover {
+            background-color: #a777e3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<header>
+<a class="home-button" href="/" title="메인 페이지로 돌아가기">🏠</a>
+<h1>유일성 자체와 코딩의 비교</h1>
+</header>
+<div class="math-container">
+<h2>유일성 자체와 코딩의 비교</h2>
+<p>
+철학에서 "유일성 자체"라는 개념은 코딩의 객체 지향 프로그래밍(OOP)에서 <strong>클래스와 인스턴스</strong>, <strong>아이덴티티와 동일성</strong>, <strong>다형성</strong>, 그리고 <strong>싱글턴 패턴</strong>과 유사하다고 볼 수 있습니다.
+</p>
+<h3>1. 클래스와 인스턴스: 청사진 vs. 고유한 존재</h3>
+<p>
+OOP에서 클래스(class)는 객체의 설계도와 같은 역할을 하며, 인스턴스(instance)는 이 클래스에서 만들어진 실제 개체입니다. 철학에서 "유일성 자체"가 모든 사물이 고유한 본질을 가진다고 말하는 것처럼, 객체도 클래스로부터 생성되지만 각 인스턴스는 자신만의 고유한 특성을 가집니다.
+</p>
+<div class="code-container">
+<pre><code><span class="code-highlight" style="color: #ff9900;">class</span> Cat:
+    <span class="code-highlight">def</span> __init__(self, name, color):
+        self.name = name
+        self.color = color
+
+cat1 = Cat(<span class="code-highlight">"Momo"</span>, <span class="code-highlight">"black"</span>)
+cat2 = Cat(<span class="code-highlight">"Chibi"</span>, <span class="code-highlight">"white"</span>)</code></pre>
+<button class="copy-btn" data-clipboard-target="#code1">복사</button>
+</div>
+<p>
+위의 예시에서 cat1은 이름이 "Momo"이고 색상이 "검정"인 고양이이며, cat2는 이름이 "Chibi"이고 색상이 "흰색"인 고양이입니다. 둘 다 Cat 클래스에서 나왔지만 서로 다른 고유한 인스턴스입니다. 이것이 바로 "유일성"의 개념입니다.
+</p>
+<h3>2. 아이덴티티 vs. 동일성: == vs. is</h3>
+<p>
+코딩에서는 ==과 is라는 두 가지 비교 방법이 있습니다. ==은 값이 같은지를 비교하고, is는 두 객체가 메모리상에서 동일한 객체인지를 확인합니다.
+</p>
+<div class="code-container">
+<pre><code>cat3 = Cat(<span class="code-highlight">"Momo"</span>, <span class="code-highlight">"black"</span>)
+<span class="code-highlight">print</span>(cat1 == cat3)  <span class="code-highlight"># True, 값은 같지만</span>
+<span class="code-highlight">print</span>(cat1 <span class="code-highlight">is</span> cat3)  <span class="code-highlight"># False, 메모리상 서로 다른 인스턴스입니다.</span></code></pre>
+<button class="copy-btn" data-clipboard-target="#code2">복사</button>
+</div>
+<p>
+철학적으로 말하자면, 겉으로 보기에는 비슷해 보여도 완전히 동일한 존재는 없다는 것입니다. 즉, 겉모습은 같을 수 있지만, 각각의 개체는 그 자체로 고유한 존재입니다.
+</p>
+<h3>3. 다형성(Polymorphism): 존재의 다양한 표현</h3>
+<p>
+다형성은 객체가 부모 클래스의 형태로 다뤄지지만, 각자의 독특한 방법으로 행동할 수 있다는 개념입니다. 예를 들어, Cat과 Dog는 둘 다 Animal 클래스의 자식일 수 있지만, 각자 "야옹"하거나 "멍멍"하는 식으로 다르게 행동합니다.
+</p>
+<p>
+철학적으로 이것은 모든 인간이 "인간"이라는 큰 범주에 속하지만, 각자가 자신의 독특한 방식으로 삶을 살아간다는 것과 유사합니다.
+</p>
+<h3>4. 싱글턴 패턴(Singleton Pattern): 진정한 유일한 인스턴스</h3>
+<p>
+싱글턴 패턴은 클래스의 인스턴스가 오직 하나만 존재하도록 보장하는 디자인 패턴입니다. 이것은 "유일성 자체"의 궁극적인 예시입니다. 즉, 애플리케이션 전체에서 그 인스턴스는 단 하나뿐이라는 것입니다. 
+</p>
+<div class="code-container">
+<pre><code><span class="code-highlight" style="color: #ff9900;">class</span> Singleton:
+    _instance = <span class="code-highlight">None</span>
+    
+    <span class="code-highlight">def</span> __new__(cls):
+        <span class="code-highlight">if</span> cls._instance <span class="code-highlight">is None</span>:
+            cls._instance = <span class="code-highlight">super</span>(Singleton, cls).__new__(cls)
+        <span class="code-highlight">return</span> cls._instance</code></pre>
+<button class="copy-btn" data-clipboard-target="#code3">복사</button>
+</div>
+<p>
+철학적으로는, 세상에 오직 하나밖에 없는 무언가와 같습니다. 이 하나뿐인 존재는 그 자체로 독특하며, 대체될 수 없습니다.
+</p>
+</div>
+<div class="footer">
+<p>© 2023 유일성 자체와 코딩의 비교 페이지. 모든 권리 보유.</p>
+</div>
+</div>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+
+        const clipboard = new ClipboardJS('.copy-btn');
+        clipboard.on('success', function(e) {
+            alert('코드가 클립보드에 복사되었습니다!');
+            e.clearSelection();
+        });
+        clipboard.on('error', function(e) {
+            alert('코드 복사에 실패했습니다.');
+        });
+    </script>
+</body>
+</html>
