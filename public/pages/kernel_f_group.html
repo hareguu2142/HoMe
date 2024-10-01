@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>빈 페이지(레드)</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<style>
+    body {
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #fff0f0;
+        color: #4a0000;
+    }
+    .wrapper {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: row;
+    }
+    .sidebar {
+        width: 250px;
+        background-color: #ff6b6b;
+        padding: 20px;
+        color: #ffffff;
+        flex-shrink: 0;
+        transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.hidden {
+        transform: translateX(-100%);
+    }
+    .content {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff5f5;
+    }
+    .header {
+        background-color: #ffa07a;
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+    }
+    h1, h2 {
+        color: #8b0000;
+    }
+    .nav-link {
+        display: block;
+        padding: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .nav-link:hover {
+        background-color: #ff4500;
+    }
+    .input-container, .output-container {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(255,0,0,0.1);
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ffd0d0;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #ff6b6b;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #ff4500;
+    }
+    #output {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-x: auto;
+    }
+    .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffa07a;
+        color: #ffffff;
+    }
+    @media (max-width: 768px) {
+        .wrapper {
+            flex-direction: column;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 1000;
+            transform: translateX(-100%);
+            width: 250px;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+        .content {
+            padding: 20px;
+        }
+        .header {
+            position: relative;
+        }
+        .menu-toggle {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #ff6b6b;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+    }
+    .code-container {
+        position: relative;
+        margin-top: 30px;
+        background-color: #000000;
+        padding: 20px;
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+    pre {
+        margin: 0;
+        font-family: 'Courier New', Courier, monospace;
+        color: #ffffff;
+    }
+    code {
+        font-family: 'Courier New', Courier, monospace;
+        color: #ffffff;
+    }
+    .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 12px;
+        background-color: #ff6b6b;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+    }
+    .code-container:hover .copy-btn {
+        opacity: 1;
+    }
+    .copy-btn:hover {
+        background-color: #ff4500;
+    }
+    .keyword {
+        color: #ff79c6;
+    }
+    .function {
+        color: #50fa7b;
+    }
+    .string {
+        color: #f1fa8c;
+    }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<aside class="sidebar" id="sidebar">
+<nav>
+<a class="nav-link" href="/">홈</a>
+</nav>
+</aside>
+<main class="content">
+<header class="header">
+<button aria-label="메뉴 열기" class="menu-toggle" id="menu-toggle">☰</button>
+<h1>Kernel of a Function and Groups</h1>
+</header>
+<section class="input-container">
+<h2>Introduction</h2>
+<p>In mathematics, particularly in the fields of <strong>linear algebra</strong> and <strong>abstract algebra</strong>, the concepts of the <strong>kernel</strong> of a function and <strong>groups</strong> (commonly denoted by $G$) play fundamental roles. This page provides definitions, explanations, and examples for both <strong>$\ker f$</strong> and <strong>$G$</strong>.</p>
+</section>
+<section class="output-container">
+<h2>1. Kernel of a Function ($\ker f$)</h2>
+<h3>Definition:</h3>
+<p>The <strong>kernel</strong> of a function $f$, denoted as <strong>$\ker f$</strong>, is the set of all elements in the domain that are mapped to the <strong>zero element</strong> (or the identity element, depending on context) in the codomain.</p>
+<p>Mathematically, if $f: X \to Y$ is a function between two algebraic structures (such as vector spaces or groups), then:</p>
+<div class="math-container">
+$\ker f = \{ x \in X \mid f(x) = 0 \}$
+</div>
+<p>Here, $0$ represents the zero element in $Y$.</p>
+<h3>Contextual Examples:</h3>
+<h4>a. Linear Algebra (Linear Transformations):</h4>
+<p>Consider a linear transformation $f: V \to W$ between two vector spaces $V$ and $W$.</p>
+<ul>
+<li><strong>Kernel ($\ker f$):</strong> The set of all vectors $v \in V$ such that $f(v) = \mathbf{0}$ (the zero vector in $W$).</li>
+</ul>
+<p><strong>Example:</strong><br/>
+Let $f: \mathbb{R}^3 \to \mathbb{R}^2$ be defined by:</p>
+<div class="math-container">
+$f(x, y, z) = (x + y, y + z)$
+</div>
+<p>Then,</p>
+<div class="math-container">
+$\ker f = \{ (x, y, z) \in \mathbb{R}^3 \mid x + y = 0 \text{ and } y + z = 0 \}$
+</div>
+<p>Solving these equations:</p>
+<div class="math-container">
+$x = -y \quad \text{and} \quad z = -y$
+</div>
+<p>So,</p>
+<div class="math-container">
+$\ker f = \{ (-y, y, -y) \mid y \in \mathbb{R} \} = \text{Span}\{ (-1, 1, -1) \}$
+</div>
+<h4>b. Group Theory (Group Homomorphisms):</h4>
+<p>Let $f: G \to H$ be a group homomorphism between groups $G$ and $H$.</p>
+<ul>
+<li><strong>Kernel ($\ker f$):</strong> The set of elements $g \in G$ such that $f(g)$ is the identity element in $H$.</li>
+</ul>
+<p><strong>Example:</strong><br/>
+Let $f: \mathbb{Z} \to \mathbb{Z}_6$ be the natural projection homomorphism defined by:</p>
+<div class="math-container">
+$f(n) = n \mod 6$
+</div>
+<p>Then,</p>
+<div class="math-container">
+$\ker f = \{ n \in \mathbb{Z} \mid n \mod 6 = 0 \} = 6\mathbb{Z} = \{ \dots, -12, -6, 0, 6, 12, \dots \}$
+</div>
+<h3>Properties:</h3>
+<ul>
+<li><strong>Kernel is a Substructure:</strong> In linear algebra, $\ker f$ is a <strong>subspace</strong> of $V$. In group theory, $\ker f$ is a <strong>normal subgroup</strong> of $G$.</li>
+<li><strong>Relation to Injectivity:</strong> A function $f$ is <strong>injective</strong> (one-to-one) if and only if $\ker f = \{0\}$ (in linear algebra) or $\ker f$ contains only the identity element (in group theory).</li>
+</ul>
+</section>
+<section class="output-container">
+<h2>2. Group ($G$)</h2>
+<h3>Definition:</h3>
+<p>A <strong>group</strong> $G$ is a fundamental algebraic structure consisting of a set equipped with a single binary operation that satisfies four fundamental properties: <strong>closure</strong>, <strong>associativity</strong>, <strong>identity</strong>, and <strong>invertibility</strong>.</p>
+<p>Formally, $G$ is a set together with a binary operation $\cdot$ (often omitted) such that:</p>
+<ol>
+<li><strong>Closure:</strong> For all $a, b \in G$, the result of the operation $a \cdot b$ is also in $G$.</li>
+<li><strong>Associativity:</strong> For all $a, b, c \in G$, $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.</li>
+<li><strong>Identity Element:</strong> There exists an element $e \in G$ such that for every $a \in G$, $e \cdot a = a \cdot e = a$.</li>
+<li><strong>Inverse Element:</strong> For each $a \in G$, there exists an element $b \in G$ (often denoted $a^{-1}$) such that $a \cdot b = b \cdot a = e$.</li>
+</ol>
+<h3>Examples:</h3>
+<h4>a. The Integers under Addition ($\mathbb{Z}, +$):</h4>
+<ul>
+<li><strong>Set:</strong> All integers $\mathbb{Z} = \{ \dots, -2, -1, 0, 1, 2, \dots \}$.</li>
+<li><strong>Operation:</strong> Addition $+$.</li>
+</ul>
+<p><strong>Verification:</strong></p>
+<ul>
+<li><strong>Closure:</strong> Sum of any two integers is an integer.</li>
+<li><strong>Associativity:</strong> $(a + b) + c = a + (b + c)$.</li>
+<li><strong>Identity Element:</strong> $0$, since $a + 0 = 0 + a = a$.</li>
+<li><strong>Inverse Element:</strong> For any integer $a$, its inverse is $-a$, since $a + (-a) = (-a) + a = 0$.</li>
+</ul>
+<h4>b. The Non-zero Real Numbers under Multiplication ($\mathbb{R}^*, \times$):</h4>
+<ul>
+<li><strong>Set:</strong> All non-zero real numbers $\mathbb{R}^* = \mathbb{R} \setminus \{0\}$.</li>
+<li><strong>Operation:</strong> Multiplication $\times$.</li>
+</ul>
+<p><strong>Verification:</strong></p>
+<ul>
+<li><strong>Closure:</strong> Product of any two non-zero real numbers is non-zero.</li>
+<li><strong>Associativity:</strong> $(a \times b) \times c = a \times (b \times c)$.</li>
+<li><strong>Identity Element:</strong> $1$, since $a \times 1 = 1 \times a = a$.</li>
+<li><strong>Inverse Element:</strong> For any $a \in \mathbb{R}^*$, its inverse is $\frac{1}{a}$, since $a \times \frac{1}{a} = \frac{1}{a} \times a = 1$.</li>
+</ul>
+<h4>c. Symmetric Group ($S_n$):</h4>
+<ul>
+<li><strong>Set:</strong> All permutations of $n$ elements.</li>
+<li><strong>Operation:</strong> Composition of permutations.</li>
+</ul>
+<p><strong>Verification:</strong></p>
+<ul>
+<li><strong>Closure:</strong> Composition of two permutations is a permutation.</li>
+<li><strong>Associativity:</strong> Function composition is associative.</li>
+<li><strong>Identity Element:</strong> The identity permutation (which maps every element to itself).</li>
+<li><strong>Inverse Element:</strong> Every permutation has an inverse permutation.</li>
+</ul>
+<h3>Subgroups:</h3>
+<p>A <strong>subgroup</strong> is a subset of a group $G$ that is itself a group under the same operation.</p>
+<p><strong>Example:</strong><br/>
+In $(\mathbb{Z}, +)$, the set $2\mathbb{Z} = \{ \dots, -4, -2, 0, 2, 4, \dots \}$ is a subgroup because it satisfies all group properties under addition.</p>
+<h3>Importance of Groups:</h3>
+<p>Groups are central to many areas of mathematics because they abstract and generalize the concept of symmetry. They are used in number theory, geometry, physics, and many other disciplines to study structural properties and invariants.</p>
+</section>
+<section class="output-container">
+<h2>Connecting $\ker f$ and $G$:</h2>
+<p>In many mathematical contexts, especially in <strong>homomorphisms</strong> between groups or <strong>linear transformations</strong> between vector spaces, the kernel plays a crucial role in understanding the structure of the function and the relationship between the domain and codomain.</p>
+<h3>Example in Group Theory:</h3>
+<p>Let $f: G \to H$ be a group homomorphism.</p>
+<ul>
+<li><strong>Kernel ($\ker f$):</strong> As defined, $\ker f = \{ g \in G \mid f(g) = e_H \}$, where $e_H$ is the identity element in $H$.</li>
+</ul>
+<p><strong>Significance:</strong></p>
+<ul>
+<li><strong>Normal Subgroup:</strong> $\ker f$ is always a normal subgroup of $G$.</li>
+<li><strong>First Isomorphism Theorem:</strong> The theorem states that $G/\ker f \cong \text{Im}(f)$, meaning the quotient of $G$ by the kernel of $f$ is isomorphic to the image of $f$.</li>
+</ul>
+<p><strong>Concrete Example:</strong><br/>
+Consider the homomorphism $f: \mathbb{Z} \to \mathbb{Z}_6$ defined by $f(n) = n \mod 6$.</p>
+<ul>
+<li><strong>Kernel:</strong> $\ker f = 6\mathbb{Z} = \{ \dots, -12, -6, 0, 6, 12, \dots \}$.</li>
+<li><strong>Image:</strong> $\text{Im}(f) = \mathbb{Z}_6$.</li>
+<li><strong>First Isomorphism Theorem:</strong> $\mathbb{Z}/6\mathbb{Z} \cong \mathbb{Z}_6$.</li>
+</ul>
+</section>
+<section class="output-container">
+<h2>Summary:</h2>
+<ul>
+<li><strong>$\ker f$</strong>: The set of elements in the domain of a function $f$ that are mapped to the zero (or identity) element in the codomain. It reveals important information about the structure and properties of $f$, such as injectivity.</li>
+<li><strong>$G$</strong>: A group, which is an algebraic structure consisting of a set equipped with a binary operation satisfying closure, associativity, identity, and invertibility. Groups are fundamental in studying symmetry, structure, and various algebraic systems.</li>
+</ul>
+<p>Understanding both the kernel of a function and the structure of groups is essential in many areas of mathematics, including solving equations, analyzing symmetries, and exploring abstract algebraic concepts.</p>
+</section>
+<footer class="footer">
+<p>Kernel of a Function and Groups</p>
+</footer>
+</main>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+
+    const clipboard = new ClipboardJS('.copy-btn');
+    clipboard.on('success', function(e) {
+        alert('코드가 클립보드에 복사되었습니다!');
+        e.clearSelection();
+    });
+    clipboard.on('error', function(e) {
+        alert('코드 복사에 실패했습니다.');
+    });
+
+    // 모바일 메뉴 토글 기능
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('visible');
+    });
+
+    // 사이드바 외부 클릭 시 닫기
+    document.addEventListener('click', (event) => {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>
