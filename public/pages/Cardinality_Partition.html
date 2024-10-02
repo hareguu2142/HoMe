@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>무한집합의 분할</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #fff0f0;
+            color: #4a0000;
+        }
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: row;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #ff6b6b;
+            padding: 20px;
+            color: #ffffff;
+            flex-shrink: 0;
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff5f5;
+        }
+        .header {
+            background-color: #ffa07a;
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+        }
+        h1, h2 {
+            color: #8b0000;
+        }
+        .nav-link {
+            display: block;
+            padding: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .nav-link:hover {
+            background-color: #ff4500;
+        }
+        .input-container, .output-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(255,0,0,0.1);
+        }
+        #output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffa07a;
+            color: #ffffff;
+        }
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 1000;
+                transform: translateX(-100%);
+                width: 250px;
+            }
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+            .content {
+                padding: 20px;
+            }
+            .header {
+                position: relative;
+            }
+            .menu-toggle {
+                position: absolute;
+                left: 20px;
+                top: 20px;
+                background-color: #ff6b6b;
+                border: none;
+                color: #fff;
+                padding: 10px;
+                cursor: pointer;
+                border-radius: 4px;
+                font-size: 18px;
+            }
+        }
+        .code-container {
+            position: relative;
+            margin-top: 30px;
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffffff;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffffff;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .code-container:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn:hover {
+            background-color: #ff4500;
+        }
+        .keyword {
+            color: #ff79c6;
+        }
+        .function {
+            color: #50fa7b;
+        }
+        .string {
+            color: #f1fa8c;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+<aside class="sidebar" id="sidebar">
+<nav>
+<a class="nav-link" href="/">홈</a>
+</nav>
+</aside>
+<main class="content">
+<header class="header">
+<button aria-label="메뉴 열기" class="menu-toggle" id="menu-toggle">☰</button>
+<h1>무한집합의 분할</h1>
+</header>
+<section class="input-container">
+<h2>문제 소개</h2>
+<p>임의의 무한집합을 동일한 카르딘 수를 가진 서로소인 두 부분집합으로 분할할 수 있는지 알아봅니다.</p>
+</section>
+<section class="output-container">
+<h2>구성적 분할 방법</h2>
+<div class="math-container">
+<p>임의의 무한집합 \( S \)를 다음과 같이 두 부분집합으로 나눌 수 있습니다:</p>
+<ol>
+<li>
+<strong>카르딘 수의 동일성:</strong> \( S \)와 \( S \times \{0,1\} \)의 카르딘 수는 동일합니다. 즉,
+                        \[
+                        |S| = |S \times \{0,1\}|
+                        \]
+                        이는 무한집합의 크기와 그 집합과의 데카르트 곱의 크기가 동일하다는 무한집합의 성질에 기인합니다.
+                    </li>
+<li>
+<strong>전단사 함수 정의:</strong> 이 동일성을 이용하여 \( S \)에서 \( S \times \{0,1\} \)로의 전단사 함수 \( f: S \rightarrow S \times \{0,1\} \)를 정의할 수 있습니다.
+                    </li>
+<li>
+<strong>부분집합 구성:</strong> 함수 \( f \)를 이용하여,
+                        \[
+                        \begin{align*}
+                        S_1 &amp;= f^{-1}(S \times \{0\}) \\
+                        S_2 &amp;= f^{-1}(S \times \{1\})
+                        \end{align*}
+                        \]
+                        로 부분집합 \( S_1 \)과 \( S_2 \)를 정의합니다.
+                    </li>
+<li>
+<strong>성질 확인:</strong> \( S_1 \)과 \( S_2 \)는 서로소이며,
+                        \[
+                        S = S_1 \cup S_2
+                        \]
+                        또한, 각 부분집합의 카르딘 수는 원래 집합 \( S \)와 동일합니다:
+                        \[
+                        |S_1| = |S_2| = |S|
+                        \]
+                    </li>
+</ol>
+</div>
+</section>
+<section class="output-container">
+<h2>예시</h2>
+<div class="math-container">
+<p><strong>자연수 집합 \( \mathbb{N} \)의 경우:</strong></p>
+<ul>
+<li>
+                        짝수 집합:
+                        \[
+                        S_1 = \{ 2n \mid n \in \mathbb{N} \}
+                        \]
+                    </li>
+<li>
+                        홀수 집합:
+                        \[
+                        S_2 = \{ 2n - 1 \mid n \in \mathbb{N} \}
+                        \]
+                    </li>
+</ul>
+<p>이때 \( S_1 \)과 \( S_2 \)는 서로소이며, 각각의 카르딘 수는 \( \aleph_0 \)입니다.</p>
+</div>
+</section>
+<section class="output-container">
+<h2>결론</h2>
+<p>따라서, 임의의 무한집합은 동일한 카르딘 수를 가진 두 개의 서로소 부분집합으로 구성적으로 분할될 수 있습니다.</p>
+</section>
+<footer class="footer">
+<p>무한집합의 분할에 관한 설명</p>
+</footer>
+</main>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+
+    const clipboard = new ClipboardJS('.copy-btn');
+    clipboard.on('success', function(e) {
+        alert('코드가 클립보드에 복사되었습니다!');
+        e.clearSelection();
+    });
+    clipboard.on('error', function(e) {
+        alert('코드 복사에 실패했습니다.');
+    });
+
+    // 모바일 메뉴 토글 기능
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('visible');
+    });
+
+    // 사이드바 외부 클릭 시 닫기
+    document.addEventListener('click', (event) => {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>
