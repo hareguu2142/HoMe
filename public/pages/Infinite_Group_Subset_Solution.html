@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>무한군의 부분집합 구성</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<style>
+    body {
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #fff0f0;
+        color: #4a0000;
+    }
+    .wrapper {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: row;
+    }
+    .sidebar {
+        width: 250px;
+        background-color: #ff6b6b;
+        padding: 20px;
+        color: #ffffff;
+        flex-shrink: 0;
+        transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.hidden {
+        transform: translateX(-100%);
+    }
+    .content {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff5f5;
+    }
+    .header {
+        background-color: #ffa07a;
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+    }
+    h1, h2 {
+        color: #8b0000;
+    }
+    .nav-link {
+        display: block;
+        padding: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .nav-link:hover {
+        background-color: #ff4500;
+    }
+    .input-container, .output-container {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(255,0,0,0.1);
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ffd0d0;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #ff6b6b;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #ff4500;
+    }
+    #output {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-x: auto;
+    }
+    .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffa07a;
+        color: #ffffff;
+    }
+    @media (max-width: 768px) {
+        .wrapper {
+            flex-direction: column;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 1000;
+            transform: translateX(-100%);
+            width: 250px;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+        .content {
+            padding: 20px;
+        }
+        .header {
+            position: relative;
+        }
+        .menu-toggle {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #ff6b6b;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+    }
+    .code-container {
+        position: relative;
+        margin-top: 30px;
+        background-color: #000000;
+        padding: 20px;
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+    pre {
+        margin: 0;
+        font-family: 'Courier New', Courier, monospace;
+        color: #ffffff;
+    }
+    code {
+        font-family: 'Courier New', Courier, monospace;
+        color: #ffffff;
+    }
+    .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 12px;
+        background-color: #ff6b6b;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+    }
+    .code-container:hover .copy-btn {
+        opacity: 1;
+    }
+    .copy-btn:hover {
+        background-color: #ff4500;
+    }
+    .keyword {
+        color: #ff79c6;
+    }
+    .function {
+        color: #50fa7b;
+    }
+    .string {
+        color: #f1fa8c;
+    }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<aside class="sidebar" id="sidebar">
+<nav>
+<a class="nav-link" href="/">홈</a>
+</nav>
+</aside>
+<main class="content">
+<header class="header">
+<button aria-label="메뉴 열기" class="menu-toggle" id="menu-toggle">☰</button>
+<h1>무한군의 부분집합 구성</h1>
+</header>
+<section class="input-container">
+<h2>문제 설명</h2>
+<p>집합 $S$의 부분 집합 $T \subseteq S$를 선택하고, $S \setminus T$를 $S$의 나머지 부분이라고 합시다.</p>
+<ul>
+<li>이항연산 $\ast$를 다음과 같이 정의합니다:
+    <ul>
+<li>$x \ast y = e$ if $x = y$,</li>
+<li>$x \ast y = y$ if $x \neq y$.</li>
+</ul>
+</li>
+</ul>
+<p>위 조건을 만족하는 무한군 $S$에 대하여, 오직 항등원만을 공유하는 두 무한 부분집합을 구성해보세요.</p>
+</section>
+<section class="output-container">
+<h2>답변</h2>
+<p>주어진 이항연산 $\ast$가 다음과 같이 정의됩니다:</p>
+<ul>
+<li>$x \ast y = e$ if $x = y$,</li>
+<li>$x \ast y = y$ if $x \neq y$.</li>
+</ul>
+<p>이 연산이 군의 연산으로 작동하기 위해서는 군의 기본 공리들(결합법칙, 항등원의 존재, 각 원소의 역원이 존재)이 만족되어야 합니다. 그러나 주어진 연산 $\ast$를 통해 정의된 군 $S$에 대해 다음과 같은 문제가 발생합니다:</p>
+<ol>
+<li><strong>항등원의 정의 불일치:</strong>
+<ul>
+<li>항등원 $e$는 모든 원소 $x$에 대해 $e \ast x = x$ 그리고 $x \ast e = x$를 만족해야 합니다.</li>
+<li>그러나 주어진 연산에 따르면, $x \ast e = e$ (만약 $x \neq e$라면) 이므로 항등원의 정의를 만족하지 않습니다.</li>
+</ul>
+</li>
+<li><strong>결합법칙 위배:</strong>
+<ul>
+<li>예를 들어, $x, y, z \in S$에서 $x \neq y$이고 $y \neq z$인 경우,
+                <ul>
+<li>$(x \ast y) \ast z = y \ast z = z$ (왜냐하면 $y \neq z$),</li>
+<li>$x \ast (y \ast z) = x \ast z = z$ (왜냐하면 $x \neq z$),</li>
+<li>이 경우는 일치하지만, $x = y \neq z$인 경우를 고려하면,
+                        <ul>
+<li>$(x \ast y) \ast z = e \ast z = z$,</li>
+<li>$x \ast (y \ast z) = x \ast z = z$,</li>
+<li>여기서는 일치하지만, $x = y = z$인 경우,
+                                <ul>
+<li>$(x \ast y) \ast z = e \ast z = z$,</li>
+<li>$x \ast (y \ast z) = x \ast e = e$,</li>
+<li>이 경우 $z \neq e$라면 $z \neq e$, 따라서 결합법칙이 위배됩니다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>이와 같이, 주어진 연산 $\ast$는 군의 결합법칙과 항등원의 정의를 만족시키지 않으므로, $S$가 무한군이면서 이 연산을 군의 연산으로 가질 수 없습니다.</p>
+<p>따라서, 주어진 조건을 만족하는 무한군 $S$는 존재하지 않으며, 따라서 $S$ 내에서 오직 항등원 $e$만을 공유하는 두 무한 부분집합을 구성하는 것은 불가능합니다.</p>
+<p><strong>결론:</strong> 주어진 이항연산으로 정의된 무한군 $S$는 군의 공리를 만족할 수 없으므로, 조건을 만족하는 두 무한 부분집합을 구성하는 것은 불가능합니다.</p>
+</section>
+<footer class="footer">
+<p>무한집합의 이항연산이 군의 연산을 만족하지 못하는 이유는 무엇일까요?</p>
+</footer>
+</main>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+
+    const clipboard = new ClipboardJS('.copy-btn');
+    clipboard.on('success', function(e) {
+        alert('코드가 클립보드에 복사되었습니다!');
+        e.clearSelection();
+    });
+    clipboard.on('error', function(e) {
+        alert('코드 복사에 실패했습니다.');
+    });
+
+    // 모바일 메뉴 토글 기능
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('visible');
+    });
+
+    // 사이드바 외부 클릭 시 닫기
+    document.addEventListener('click', (event) => {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>
