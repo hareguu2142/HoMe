@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>가우스 함수 적분 문제 예시</title>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<style>
+    body {
+        font-family: 'Noto Sans KR', Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #fff0f0;
+        color: #4a0000;
+    }
+    .wrapper {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: row;
+    }
+    .sidebar {
+        width: 250px;
+        background-color: #ff6b6b;
+        padding: 20px;
+        color: #ffffff;
+        flex-shrink: 0;
+        transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.hidden {
+        transform: translateX(-100%);
+    }
+    .content {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff5f5;
+    }
+    .header {
+        background-color: #ffa07a;
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+    }
+    h1, h2 {
+        color: #8b0000;
+    }
+    .nav-link {
+        display: block;
+        padding: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .nav-link:hover {
+        background-color: #ff4500;
+    }
+    .input-container, .output-container {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(255,0,0,0.1);
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ffd0d0;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #ff6b6b;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #ff4500;
+    }
+    #output {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-x: auto;
+    }
+    .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffa07a;
+        color: #ffffff;
+    }
+    @media (max-width: 768px) {
+        .wrapper {
+            flex-direction: column;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 1000;
+            transform: translateX(-100%);
+            width: 250px;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+        .content {
+            padding: 20px;
+        }
+        .header {
+            position: relative;
+        }
+        .menu-toggle {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #ff6b6b;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<aside class="sidebar" id="sidebar">
+<nav>
+<a class="nav-link" href="/">홈</a>
+</nav>
+</aside>
+<main class="content">
+<header class="header">
+<button aria-label="메뉴 열기" class="menu-toggle" id="menu-toggle">☰</button>
+<h1>적분 문제 예시</h1>
+</header>
+<section class="output-container">
+<h2>적분 문제 예시</h2>
+<div class="math-container">
+<p>다음 적분을 계산해 보겠습니다:</p>
+<p>$$\int_{0}^{5} \left( \lfloor x \rfloor \right)^2 \, dx$$</p>
+<h3>단계별 해설:</h3>
+<ol>
+<li><strong>구간 분할:</strong>
+<p>바닥 함수 $$\lfloor x \rfloor$$는 각 정수에서 값이 변합니다. 따라서 $$0$$부터 $$5$$까지 다음과 같이 구간을 나눌 수 있습니다:</p>
+<ul>
+<li>$$[0, 1): \lfloor x \rfloor = 0$$</li>
+<li>$$[1, 2): \lfloor x \rfloor = 1$$</li>
+<li>$$[2, 3): \lfloor x \rfloor = 2$$</li>
+<li>$$[3, 4): \lfloor x \rfloor = 3$$</li>
+<li>$$[4, 5): \lfloor x \rfloor = 4$$</li>
+</ul>
+</li>
+<li><strong>각 구간에서의 적분 계산:</strong>
+<p>$$\lfloor x \rfloor$$가 각 구간에서 상수이므로, 적분은 다음과 같이 간단해집니다:</p>
+<ol>
+<li>$$[0, 1):$$
+                    $$\int_{0}^{1} 0^2 \, dx = 0 \times (1 - 0) = 0$$
+                </li>
+<li>$$[1, 2):$$
+                    $$\int_{1}^{2} 1^2 \, dx = 1^2 \times (2 - 1) = 1$$
+                </li>
+<li>$$[2, 3):$$
+                    $$\int_{2}^{3} 2^2 \, dx = 2^2 \times (3 - 2) = 4$$
+                </li>
+<li>$$[3, 4):$$
+                    $$\int_{3}^{4} 3^2 \, dx = 3^2 \times (4 - 3) = 9$$
+                </li>
+<li>$$[4, 5):$$
+                    $$\int_{4}^{5} 4^2 \, dx = 4^2 \times (5 - 4) = 16$$
+                </li>
+</ol>
+</li>
+<li><strong>결과 합산:</strong>
+<p>각 구간의 결과를 합하면:</p>
+            $$0 + 1 + 4 + 9 + 16 = 30$$
+        </li>
+</ol>
+<h3>최종 답:</h3>
+    $$\int_{0}^{5} \left( \lfloor x \rfloor \right)^2 \, dx = 30$$
+</div>
+</section>
+<footer class="footer">
+<p>가우스 함수 적분 문제 예시</p>
+</footer>
+</main>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+
+    // 모바일 메뉴 토글 기능
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('visible');
+    });
+
+    // 사이드바 외부 클릭 시 닫기
+    document.addEventListener('click', (event) => {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>
