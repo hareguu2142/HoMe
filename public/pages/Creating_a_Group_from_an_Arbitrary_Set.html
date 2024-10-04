@@ -143,26 +143,58 @@
 </header>
 <div class="math-container">
 <!-- Explanation of natural numbers and group operation -->
-<p><strong>The natural numbers ($N$)</strong> already have a group operation ($+$).</p>
-<p>Except for $N$, every infinite set is represented by $2^k$, where $k$ is a cardinal number greater than or equal to $\aleph_0$.</p>
+<p><strong>The natural numbers ($\mathbb{N}$)</strong> already have a group operation ($+$).</p>
+<p>Except for $\mathbb{N}$, every infinite set is represented by $2^k$, where $k$ is a cardinal number greater than or equal to $\aleph_0$.</p>
 <!-- Explanation of $2^k$ and the function group -->
 <p>$2^k$ is the set of functions from $k$ to $\{0, 1\}$.</p>
-<p>The set $\{0, 1\}$ forms a group under the operation $Z_2$.</p>
+<p>The set $\{0, 1\}$ forms a group under the operation $\mathbb{Z}_2$.</p>
 <p>The group $X$, which is $2^k$, is defined as follows:</p>
 <!-- Definition of the group operation for $X$ -->
-<p>If $f, g \in X$, then the group operation $f * g$ is defined by $(f + g)(r) = f(r) + g(r)$, where $+$ is the group operation in $Z_2$.</p>
+<p>If $f, g \in X$, then the group operation $f * g$ is defined by $(f + g)(r) = f(r) + g(r)$, where $+$ is the group operation in $\mathbb{Z}_2$.</p>
 <!-- Properties of the group, such as associativity, identity, and inverse elements -->
 <p>
         1) <strong>Associativity</strong>: $(f + r) + g = f + (r + g)$, which is trivial.<br/>
         2) <strong>Identity element</strong>: The identity element is the function $f = 0$, where $f(r) = 0$ for all $r$.<br/>
-        3) <strong>Inverse element</strong>: For every function $f$, the inverse element is $f^{-1} = f$, since $f + f = 0$ in $Z_2$.
+        3) <strong>Inverse element</strong>: For every function $f$, the inverse element is $f^{-1} = f$, since $f + f = 0$ in $\mathbb{Z}_2$.
     </p>
 <!-- Conclusion that $*$ and $X$ form a group -->
 <p>Therefore, $*$ and $X$ form a group.</p>
 <h3>Another Theorem</h3>
 <!-- Explanation of subgroup properties -->
-<p>The group $X$ contains both $Z_2$ and $Z_2 \times Z_2$ as subgroups. If $f \in X$, then the span of $f$ is $Z_2$. If $g \in X$, then the span of $f$ and $g$ is $Z_2 \times Z_2$.</p>
-</div>
+<p>The group $X$ contains both $\mathbb{Z}_2$ and $\mathbb{Z}_2 \times \mathbb{Z}_2$ as subgroups. If $f \in X$, then the span of $f$ is $\mathbb{Z}_2$. If $g \in X$, then the span of $f$ and $g$ is $\mathbb{Z}_2 \times \mathbb{Z}_2$.</p>
+<!-- New Theorem Added Below -->
+<h3>Isomorphism to the Direct Product of $\mathbb{Z}_2$</h3>
+<!-- Explanation of the isomorphism between X and the direct product of Z_2 -->
+<p>The group $X = 2^k$ is isomorphic to the direct product of copies of $\mathbb{Z}_2$ indexed by the set $k$. Formally, we can express this as:</p>
+<p>
+    $$
+    X \cong \prod_{r \in k} \mathbb{Z}_2
+    $$
+</p>
+<p>Here, $\prod_{r \in k} \mathbb{Z}_2$ denotes the direct product of $\mathbb{Z}_2$ for each element $r$ in the set $k$. This isomorphism reveals that $X$ can be viewed as a Cartesian product where each component corresponds to a coordinate in $\mathbb{Z}_2$.</p>
+<p>To establish this isomorphism, we define a bijective group homomorphism $\psi: X \to \prod_{r \in k} \mathbb{Z}_2$ as follows:</p>
+<p>
+    $$
+    \psi(f) = (f(r))_{r \in k}
+    $$
+</p>
+<p>For each function $f \in X$, $\psi(f)$ maps $f$ to the tuple where each component is the value of $f$ at the corresponding element $r \in k$. This mapping preserves the group operation because:</p>
+<ul>
+<li>**Homomorphism**: For any $f, g \in X$, 
+        $$
+        \psi(f * g) = (f(r) + g(r))_{r \in k} = (f(r))_{r \in k} + (g(r))_{r \in k} = \psi(f) + \psi(g)
+        $$
+        where addition is performed component-wise in $\prod_{r \in k} \mathbb{Z}_2$.</li>
+<li>**Injectivity**: If $\psi(f) = \psi(g)$, then $(f(r))_{r \in k} = (g(r))_{r \in k}$, implying $f(r) = g(r)$ for all $r \in k$. Therefore, $f = g$.</li>
+<li>**Surjectivity**: For any tuple $(a_r)_{r \in k} \in \prod_{r \in k} \mathbb{Z}_2$, define a function $f: k \to \{0, 1\}$ by $f(r) = a_r$. Then $\psi(f) = (a_r)_{r \in k}$, showing that every element in the direct product has a preimage in $X$.</li>
+</ul>
+<p>Thus, $\psi$ is a bijective group homomorphism, establishing the isomorphism between $X$ and $\prod_{r \in k} \mathbb{Z}_2$.</p>
+<p>**Implications of the Isomorphism**:</p>
+<ul>
+<li>**Structural Insight**: This isomorphism provides a clear structural understanding of $X$ by relating it to the well-studied direct product of cyclic groups of order 2.</li>
+<li>**Representation**: It allows us to represent elements of $X$ as infinite (or finite, depending on $k$) sequences of 0s and 1s, facilitating analysis and computation.</li>
+<li>**Further Analysis**: This perspective is foundational for exploring more advanced topics such as dual groups, topological group structures, and applications in areas like coding theory and cryptography.</li>
+</ul>
 <div class="footer">
 <!-- Footer information about rendering equations with KaTeX -->
 <p>이 페이지의 수식은 KaTeX를 사용하여 렌더링되었습니다.</p>
@@ -179,5 +211,5 @@
         });
     });
 </script>
-</body>
+</div></body>
 </html>
